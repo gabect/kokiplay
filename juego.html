@@ -296,60 +296,12 @@ function windowLight(hour, index){
  const off=21+((index*43)%60)/60*2.9;
  return Math.max(0,Math.min(1,(hour-on)/.1,(off+.1-hour)/.1));
 }
-var ruralInfra=document.createElementNS(NS,'g');ruralInfra.id='ruralInfra';$('obs').appendChild(ruralInfra);
 function treeAsset(index){
  const choices=['rural/assets/banana-grove.webp','rural/assets/tree-mango-fruit.webp','rural/assets/tree-jobo.webp','rural/assets/tree-mango-green.webp','rural/assets/banana-young.webp'];
  return choices[index%choices.length];
 }
 function ruralPoleX(index){
  return index*2100+180+Math.sin(index*1.73)*190+Math.sin(index*.49)*85;
-}
-function drawRuralInfrastructure(){
- const first=Math.max(0,Math.floor((dist-1500)/2100)),last=Math.floor((dist+W+1800)/2100);
- let art='';
- function cablePath(x0,y0,x1,y1,sag,clearance){
-  let d='';
-  for(let n=0;n<=36;n++){
-   const t=n/36,x=x0+(x1-x0)*t,raw=y0+(y1-y0)*t+sag*Math.sin(Math.PI*t);
-   const roadY=GY-E(x)+2;
-   const y=Math.min(raw,roadY-clearance);
-   d+=(n?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
-  }
-  return d;
- }
- for(let i=first;i<=last;i++){
-  const x=ruralPoleX(i),nextX=ruralPoleX(i+1);
-  const base=GY-E(x)+2,top=base-138;
-  const nextBase=GY-E(nextX)+2,nextTop=nextBase-138;
-  const pole=i%4===1?'pole-transformer.webp':'pole-utility.webp';
-  const wire0=top+25, wire1=nextTop+25;
-  [[0,2.2,'#352e27'],[10,1.35,'#453930'],[19,1.15,'#51463b']].forEach(function(w){
-   art+='<path d="'+cablePath(x,wire0+w[0],nextX,wire1+w[0],17,72)+'" fill="none" stroke="'+w[2]+'" stroke-width="'+w[1]+'" opacity=".9"/>';
-  });
-  houseList.forEach(function(q){
-   const hx=q.x+q.w*.7;
-   if(Math.abs(hx-x)>Math.abs(hx-nextX))return;
-   if(Math.abs(hx-x)>1450)return;
-   const hy=GY-q.roof+20, wireY=wire0+5;
-   const lo=Math.min(hx,x),hi=Math.max(hx,x),up=hx<x?hy:wireY,down=hx<x?wireY:hy;
-   let drop='';for(let n=0;n<=20;n++){
-    const t=n/20,wx=lo+(hi-lo)*t,raw=up+(down-up)*t+9*Math.sin(Math.PI*t);
-    const y=Math.min(raw,GY-E(wx)-48);drop+=(n?'L':'M')+wx.toFixed(1)+' '+y.toFixed(1);
-   }
-   art+='<path d="'+drop+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
-  });
-  art+='<image href="rural/assets/'+pole+'" x="'+(x-33)+'" y="'+top+'" width="66" height="'+(base-top)+'" preserveAspectRatio="xMidYMax meet"/>';
- }
- const lightSpan=2000000,lightFirst=Math.max(0,Math.floor((dist-1200)/lightSpan)),lightLast=Math.floor((dist+W+1200)/lightSpan);
- for(let i=lightFirst;i<=lightLast;i++){
-  const x=(i+1)*lightSpan,base=GY-E(x)+2,top=base-140;
-  const lampX=x+29,lampY=top+25,endY=base-1;
-  art+='<path d="M'+lampX+' '+lampY+' L'+(lampX-55)+' '+endY+' Q'+lampX+' '+(endY-10)+' '+(lampX+84)+' '+endY+' Z" fill="url(#warmLampBeam)" opacity=".68"/>';
-  art+='<ellipse cx="'+lampX+'" cy="'+(lampY+2)+'" rx="6" ry="3.5" fill="#ffe69a" opacity=".88"/>';
-  art+='<image href="rural/assets/pole-streetlight.webp" x="'+(x-34)+'" y="'+top+'" width="80" height="'+(base-top)+'" preserveAspectRatio="xMidYMax meet"/>';
- }
- ruralInfra.innerHTML=art;
- ruralInfra.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
 }
 function drawHouses(){let litMasks='';ensureHouses();houseList.forEach(function(q){
  if(q.x>dist+900)return;
@@ -370,7 +322,6 @@ function drawHouses(){let litMasks='';ensureHouses();houseList.forEach(function(
  art+='<path d="M'+lx+' '+(GY-E(l.a)-pathDepth)+' V'+(ly-5)+' M'+far+' '+(GY-E(l.b)-pathDepth)+' V'+(fy-5)+'" stroke="#766044" stroke-width="4"/><path d="M'+lx+' '+ly+' Q'+((lx+far)/2)+' '+cy+' '+far+' '+fy+'" stroke="#584f42" fill="none" stroke-width="2.5"/>';
  l.clothes.forEach(function(c,k){if(c.dropped)return;var sway=reduceMotion?0:Math.sin(worldTime*2+k+q.i)*5;art+='<g transform="translate('+(c.x-q.x)+' '+(GY-lineH(l,c.x))+') rotate('+sway+')">'+garment(c.kind)+'<path d="M-8 -3 v7 M8 -3 v7" stroke="#a5814e" stroke-width="3"/></g>';});
  q.g.innerHTML=art;q.g.setAttribute('transform','translate('+(q.x-dist).toFixed(2)+' 0)');});
- drawRuralInfrastructure();
  $('litPanes').innerHTML=litMasks; $('litMaskWorld').setAttribute('transform',world.getAttribute('transform'));}
 function slope(x){return (E(x+1)-E(x-1))/2;}
 function slope(x){return (E(x+1)-E(x-1))/2;}
@@ -390,7 +341,7 @@ defs.insertAdjacentHTML('beforeend',`
 <pattern id="trailEarth" width="4096" height="640" patternUnits="userSpaceOnUse"><image href="rural/ladera-larga.webp" width="4096" height="640"/></pattern>`);
 const bankSurface=document.createElementNS(NS,'g');
 $('terrain').insertBefore(bankSurface,$('hillCap'));
-defs.insertAdjacentHTML('beforeend','<linearGradient id="warmLampBeam" x1=".5" y1="0" x2=".5" y2="1"><stop stop-color="#ffd56d" stop-opacity=".62"/><stop offset=".62" stop-color="#ffd56d" stop-opacity=".19"/><stop offset="1" stop-color="#ffd56d" stop-opacity="0"/></linearGradient><linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
+defs.insertAdjacentHTML('beforeend','<linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
 const nearVerge=document.createElementNS(NS,'g');
 world.appendChild(nearVerge);
 function roadsideBlock(block){
