@@ -301,29 +301,52 @@ function treeAsset(index){
  const choices=['rural/assets/banana-grove.webp','rural/assets/tree-mango-fruit.webp','rural/assets/tree-jobo.webp','rural/assets/tree-mango-green.webp','rural/assets/banana-young.webp'];
  return choices[index%choices.length];
 }
+function ruralPoleX(index){
+ return index*2100+180+Math.sin(index*1.73)*190+Math.sin(index*.49)*85;
+}
 function drawRuralInfrastructure(){
- const span=2100, first=Math.max(0,Math.floor((dist-900)/span)), last=Math.floor((dist+W+1600)/span);
+ const first=Math.max(0,Math.floor((dist-1500)/2100)),last=Math.floor((dist+W+1800)/2100);
  let art='';
- for(let i=first;i<=last;i++){
-  const x=i*span+240, base=GY-E(x)-pathDepth, top=base-138;
-  const pole=i%4===1?'pole-transformer.webp':'pole-utility.webp';
-  art+='<path d="M'+(x-30)+' '+(top+24)+' Q'+(x+span/2)+' '+(top+52)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-114)+'" fill="none" stroke="#352e27" stroke-width="2.2" opacity=".88"/>';
-  art+='<path d="M'+(x-30)+' '+(top+34)+' Q'+(x+span/2)+' '+(top+62)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-104)+'" fill="none" stroke="#453930" stroke-width="1.35"/>';
-  art+='<path d="M'+(x-30)+' '+(top+43)+' Q'+(x+span/2)+' '+(top+71)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-95)+'" fill="none" stroke="#51463b" stroke-width="1.15"/>';
-  houseList.forEach(function(q){
-   const hx=q.x+q.w*.7;if(Math.abs(hx-x)>span*.58)return;
-   const hy=GY-q.roof+29, wireY=top+31;
-   art+='<path d="M'+hx+' '+hy+' Q'+(hx+42)+' '+(wireY-8)+' '+x+' '+wireY+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
-  });
-  art+='<image href="rural/assets/'+pole+'" x="'+(x-33)+'" y="'+top+'" width="66" height="138" preserveAspectRatio="xMidYMax meet"/>';
+ function cablePath(x0,y0,x1,y1,sag,clearance){
+  let d='';
+  for(let n=0;n<=36;n++){
+   const t=n/36,x=x0+(x1-x0)*t,raw=y0+(y1-y0)*t+sag*Math.sin(Math.PI*t);
+   const roadY=GY-E(x)+2;
+   const y=Math.min(raw,roadY-clearance);
+   d+=(n?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
+  }
+  return d;
  }
- const lightSpan=2000000, lightFirst=Math.max(0,Math.floor((dist-1200)/lightSpan)), lightLast=Math.floor((dist+W+1200)/lightSpan);
+ for(let i=first;i<=last;i++){
+  const x=ruralPoleX(i),nextX=ruralPoleX(i+1);
+  const base=GY-E(x)+2,top=base-138;
+  const nextBase=GY-E(nextX)+2,nextTop=nextBase-138;
+  const pole=i%4===1?'pole-transformer.webp':'pole-utility.webp';
+  const wire0=top+25, wire1=nextTop+25;
+  [[0,2.2,'#352e27'],[10,1.35,'#453930'],[19,1.15,'#51463b']].forEach(function(w){
+   art+='<path d="'+cablePath(x,wire0+w[0],nextX,wire1+w[0],17,72)+'" fill="none" stroke="'+w[2]+'" stroke-width="'+w[1]+'" opacity=".9"/>';
+  });
+  houseList.forEach(function(q){
+   const hx=q.x+q.w*.7;
+   if(Math.abs(hx-x)>Math.abs(hx-nextX))return;
+   if(Math.abs(hx-x)>1450)return;
+   const hy=GY-q.roof+20, wireY=wire0+5;
+   const lo=Math.min(hx,x),hi=Math.max(hx,x),up= hx<x?wireY:hy,down=hx<x?hy:wireY;
+   let drop='';for(let n=0;n<=20;n++){
+    const t=n/20,wx=lo+(hi-lo)*t,raw=up+(down-up)*t+9*Math.sin(Math.PI*t);
+    const y=Math.min(raw,GY-E(wx)-48);drop+=(n?'L':'M')+wx.toFixed(1)+' '+y.toFixed(1);
+   }
+   art+='<path d="'+drop+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
+  });
+  art+='<image href="rural/assets/'+pole+'" x="'+(x-33)+'" y="'+top+'" width="66" height="'+(base-top)+'" preserveAspectRatio="xMidYMax meet"/>';
+ }
+ const lightSpan=2000000,lightFirst=Math.max(0,Math.floor((dist-1200)/lightSpan)),lightLast=Math.floor((dist+W+1200)/lightSpan);
  for(let i=lightFirst;i<=lightLast;i++){
-  const x=(i+1)*lightSpan, base=GY-E(x)-pathDepth, top=base-140;
-  const lampX=x+29, lampY=top+25, endY=base-1;
+  const x=(i+1)*lightSpan,base=GY-E(x)+2,top=base-140;
+  const lampX=x+29,lampY=top+25,endY=base-1;
   art+='<path d="M'+lampX+' '+lampY+' L'+(lampX-55)+' '+endY+' Q'+lampX+' '+(endY-10)+' '+(lampX+84)+' '+endY+' Z" fill="url(#warmLampBeam)" opacity=".68"/>';
   art+='<ellipse cx="'+lampX+'" cy="'+(lampY+2)+'" rx="6" ry="3.5" fill="#ffe69a" opacity=".88"/>';
-  art+='<image href="rural/assets/pole-streetlight.webp" x="'+(x-34)+'" y="'+top+'" width="80" height="140" preserveAspectRatio="xMidYMax meet"/>';
+  art+='<image href="rural/assets/pole-streetlight.webp" x="'+(x-34)+'" y="'+top+'" width="80" height="'+(base-top)+'" preserveAspectRatio="xMidYMax meet"/>';
  }
  ruralInfra.innerHTML=art;
  ruralInfra.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
