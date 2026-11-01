@@ -172,7 +172,7 @@ function panoramaStrip(name){
 function drawValley(distance){
  const hills=$('hillF');
  if(!hills.dataset.rural){
-   hills.innerHTML='<g transform="translate(0 92) scale(.71)">'+panoramaStrip('campo-pixel')+'</g>';
+   hills.innerHTML='<g transform="translate(0 92) scale(.71)">'+panoramaStrip('campo-pixel-v2')+'</g>';
    hills.dataset.rural='1';
    ['crag','hillN','mid','cloud'].forEach(id=>$(id).style.display='none');
  }
