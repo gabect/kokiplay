@@ -313,7 +313,7 @@ function drawRuralInfrastructure(){
   houseList.forEach(function(q){
    const hx=q.x+q.w*.7;if(Math.abs(hx-x)>span*.58)return;
    const hy=GY-q.roof+29, wireY=top+31;
-   art+='<path d="M'+(hx-x)+' '+hy+' Q'+(hx-x+42)+' '+(wireY-8)+' '+(x-x)+' '+wireY+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
+   art+='<path d="M'+hx+' '+hy+' Q'+(hx+42)+' '+(wireY-8)+' '+x+' '+wireY+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
   });
   art+='<image href="rural/assets/'+pole+'" x="'+(x-33)+'" y="'+top+'" width="66" height="138" preserveAspectRatio="xMidYMax meet"/>';
  }
