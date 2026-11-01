@@ -301,7 +301,7 @@ function treeAsset(index){
  return choices[index%choices.length];
 }
 const ruralEmbankments=document.createElementNS(NS,'g');
-ruralEmbankments.id='ruralEmbankments';world.insertBefore(ruralEmbankments,$('terrain'));
+ruralEmbankments.id='ruralEmbankments';
 function drawRuralEmbankments(){
  let art='';
  houseList.forEach(function(q){
@@ -347,6 +347,7 @@ function beep(f1,f2,d,type,v){if(!sndOn)return;try{if(!actx)actx=new(window.Audi
 var svg=$('game'),world=document.createElementNS(NS,'g');world.id='world';
 svg.insertBefore(world,$('terrain'));
 ['terrain','shadow','obs','rig','fg'].forEach(function(id){world.appendChild($(id));});
+ruralEmbankments.setAttribute('pointer-events','none');world.insertBefore(ruralEmbankments,$('terrain'));
 // Replace flat foreground bands with the actual collision surface.
 Array.from(svg.children).forEach(function(el){if(el.tagName==='rect')el.remove();});
 ['ground','fence','fg'].forEach(function(id){$(id).style.display='none';});
