@@ -21,7 +21,7 @@ button:active{transform:translateY(1px)}
 body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-action:none;box-shadow:0 18px 60px #47392120} button:focus-visible,#stage:focus-visible{outline:3px solid #bc7337;outline-offset:4px} .ctrl{flex-wrap:wrap} #jump{min-width:120px} @media(max-width:600px){main{padding:12px 8px} button{padding:12px 10px} h1{font-size:18px}} @media(prefers-color-scheme:dark){body{background:#1b1820}}
  .movePad{display:flex;gap:5px;margin-left:auto}.movePad button{touch-action:none;user-select:none;min-width:45px}button[aria-pressed=true]#run,button[aria-pressed=true]#auto{background:#427557;color:white}</style></head><body><main>
 <h1>Tropical Run</h1>
-<p class="s">Explora con ← y →. Mantén Shift para correr o activa «Correr» en los controles táctiles. Salta con ↑ o espacio. «Carrera automática» inicia el recorrido clásico.</p>
+<p class="s">Explora con ← y →. Mantén Shift para patinar rápido o activa «Patinar» en los controles táctiles. Salta con ↑ o espacio. «Patinaje automático» inicia el recorrido clásico.</p>
 <div id="stage" tabindex="0" role="region" aria-label="Juego. Espacio para saltar, P para pausar"><svg id="game" viewBox="0 0 800 450" aria-label="Juego de correr y saltar obstáculos">
 <g id="sky"><rect width="800" height="60" fill="#6f9ec8"/><rect y="60" width="800" height="70" fill="#86b2d0"/><rect y="130" width="800" height="60" fill="#a8c9d6"/><rect y="190" width="800" height="60" fill="#c9d8c8"/><rect y="250" width="800" height="50" fill="#ecd6a8"/><rect y="300" width="800" height="60" fill="#f4c78e"/>
 <circle cx="150" cy="268" r="46" fill="#fbe7b0" opacity=".55"/><circle cx="150" cy="268" r="30" fill="#fff3cf"/></g>
@@ -44,7 +44,7 @@ body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-ac
 <path class="o" d="M86 333 Q101 337 101 343 Q101 347 96 347 L86 347 Z" fill="#0e0c14"/>
 <path d="M52 331 L76 324 L79 330 L55 340 Z" fill="#0e0c14"/>
 <path class="o" d="M42 345 L99 345 Q103 345 102 350 L44 351 Q40 351 42 345 Z" fill="#6f6c88"/>
-<ellipse cx="70" cy="341" rx="6" ry="2.6" fill="#a8603f" opacity=".5"/></g></g></g>
+<ellipse cx="70" cy="341" rx="6" ry="2.6" fill="#a8603f" opacity=".5"/></g><path d="M47 352 H98" fill="none" stroke="#303744" stroke-width="3.5" stroke-linecap="round"/><circle cx="51" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="66" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="81" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="96" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="51" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="66" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="81" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="96" cy="355" r="1.3" fill="#b9c6d0"/></g></g>
 <path d="M42 210 L80 210 L84 258 L40 258 Z" fill="#3f5f97"/>
 <path d="M66 210 L80 210 L84 258 L70 258 Z" fill="#2b416f" opacity=".55"/>
 <path d="M42 210 L50 210 L48 258 L40 258 Z" fill="#5f84ba" opacity=".5"/>
@@ -66,7 +66,7 @@ body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-ac
 <path class="o" d="M86 333 Q101 337 101 343 Q101 347 96 347 L86 347 Z" fill="#1b1824"/>
 <path d="M52 331 L76 324 L79 330 L55 340 Z" fill="#1b1824"/>
 <path class="o" d="M42 345 L99 345 Q103 345 102 350 L44 351 Q40 351 42 345 Z" fill="#a8a5bd"/>
-<ellipse cx="70" cy="341" rx="6" ry="2.6" fill="#a8603f" opacity=".5"/></g></g></g>
+<ellipse cx="70" cy="341" rx="6" ry="2.6" fill="#a8603f" opacity=".5"/></g><path d="M47 352 H98" fill="none" stroke="#303744" stroke-width="3.5" stroke-linecap="round"/><circle cx="51" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="66" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="81" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="96" cy="355" r="4.6" fill="#343b4a" stroke="#d2d1ce" stroke-width="1.2"/><circle cx="51" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="66" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="81" cy="355" r="1.3" fill="#b9c6d0"/><circle cx="96" cy="355" r="1.3" fill="#b9c6d0"/></g></g>
 <path d="M42 210 L80 210 L84 258 L40 258 Z" fill="#5f84ba"/>
 <path d="M66 210 L80 210 L84 258 L70 258 Z" fill="#3f5f97" opacity=".55"/>
 <path d="M42 210 L50 210 L48 258 L40 258 Z" fill="#8fb2db" opacity=".5"/>
@@ -99,7 +99,7 @@ body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-ac
 <text id="m1" x="400" y="184" text-anchor="middle" font-size="28" font-weight="700" fill="#f1ece4" font-family="system-ui,sans-serif"></text>
 <text id="m2" x="400" y="220" text-anchor="middle" font-size="17" fill="#d9d3e0" font-family="system-ui,sans-serif"></text></g>
 </svg></div>
-<div class="ctrl"><button id="jump" type="button">Saltar</button><button id="pause" type="button">Pausa</button><button id="snd" type="button">Sonido: sí</button><button id="auto" type="button" aria-pressed="false">Carrera automática</button><div class="movePad"><button id="left" aria-label="Mover a la izquierda">←</button><button id="right" aria-label="Mover a la derecha">→</button><button id="run" aria-pressed="false">Correr</button></div></div>
+<div class="ctrl"><button id="jump" type="button">Saltar</button><button id="pause" type="button">Pausa</button><button id="snd" type="button">Sonido: sí</button><button id="auto" type="button" aria-pressed="false">Carrera automática</button><div class="movePad"><button id="left" aria-label="Mover a la izquierda">←</button><button id="right" aria-label="Mover a la derecha">→</button><button id="run" aria-pressed="false" aria-label="Patinar rápido">Patinar</button></div></div>
 </main>
 <script>
 (function(){
@@ -192,9 +192,9 @@ var flamboyan=blossomTree();
 var P={Th:[60,214],Kn:[60,262],Ft:[60,322],Sh:[62,132],El:[62,166]};
 var els={};["N","F"].forEach(function(p){["Th","Kn","Ft","Sh","El"].forEach(function(j){els[p+j]=$(p+j);});});
 var rig=$("rig"),bob=$("bob"),lean1=$("lean1"),lean2=$("lean2"),headG=$("headG");
-var RUN={thigh:[-42,-30,0,30,42,30,0,-30,-42],knee:[10,20,12,25,55,95,110,60,10],foot:[22,10,-12,-30,-45,-60,-60,-25,22],sho:[40,28,0,-28,-40,-28,0,28,40],elb:[-70,-75,-85,-95,-100,-95,-85,-75,-70]};
-// A distinct, shorter stride keeps the walking gait upright and relaxed.
-var WALK={thigh:[-19,-14,-4,9,17,11,-2,-13,-19],knee:[9,18,24,15,9,18,24,15,9],foot:[7,2,-7,-13,-8,1,8,14,7],sho:[17,13,3,-9,-15,-10,1,12,17],elb:[-42,-45,-51,-58,-61,-57,-50,-44,-42]};
+// Push-and-glide cycles for inline skates: wider pushes when fast, compact glides when slow.
+var RUN={thigh:[-28,-18,2,24,34,20,-4,-26,-28],knee:[18,38,24,14,32,72,86,45,18],foot:[12,5,-14,-28,-22,-2,14,28,12],sho:[22,34,28,10,-12,-26,-14,10,22],elb:[-34,-26,-8,8,-16,-40,-46,-33,-34]};
+var WALK={thigh:[-12,-8,5,16,11,-4,-14,-8,-12],knee:[13,20,30,20,13,20,30,20,13],foot:[6,1,-10,-16,-9,1,8,12,6],sho:[16,24,28,14,-2,-16,-18,-4,16],elb:[-26,-22,-15,-7,-15,-28,-32,-28,-26]};
 var KT=[0,.15,.3,.5,.75,.9,1];
 var JN={thigh:[0,-55,-5,-70,-25,-60,0],knee:[0,95,10,110,25,95,0],foot:[0,-35,25,-30,10,-35,0],sho:[0,25,-118,-88,-105,20,0],elb:[-10,-20,-20,-40,-30,-20,-10]};
 var JF={thigh:[0,-45,15,-45,10,-50,0],knee:[0,85,40,90,35,85,0],foot:[0,-35,25,-30,10,-35,0],sho:[0,20,-105,-70,-95,15,0],elb:[-10,-25,-25,-50,-35,-25,-10]};
@@ -211,7 +211,7 @@ function pose(dt,gF,gB,g){
   T.FTh=lerpKT(JF.thigh,t);T.FKn=lerpKT(JF.knee,t);T.FFt=lerpKT(JF.foot,t);T.FSh=lerpKT(JF.sho,t);T.FEl=lerpKT(JF.elb,t);lean=lerpKT(JL,t);}
  else{var c=phase,gait=runningMotion?RUN:WALK;T.NTh=lerpEq(gait.thigh,c);T.NKn=lerpEq(gait.knee,c);T.NFt=lerpEq(gait.foot,c);T.NSh=lerpEq(gait.sho,c);T.NEl=lerpEq(gait.elb,c);
   T.FTh=lerpEq(gait.thigh,c+.5);T.FKn=lerpEq(gait.knee,c+.5);T.FFt=lerpEq(gait.foot,c+.5);T.FSh=lerpEq(gait.sho,c+.5);T.FEl=lerpEq(gait.elb,c+.5);
-  bobY=runningMotion?(-2+3*Math.cos(4*Math.PI*c)):(-1+1.2*Math.cos(2*Math.PI*c));if(landT>0){bobY+=10*landT/0.12;}
+  lean=runningMotion?10:5;bobY=runningMotion?(-1+2*Math.cos(2*Math.PI*c)):(-.5+.7*Math.cos(2*Math.PI*c));if(landT>0){bobY+=10*landT/0.12;}
   var sl=(gF-gB)/26;tl=-facing*Math.atan(sl)*(runningMotion?1:.45)*180/Math.PI;}
  if(sliding&&grounded){T.NTh=-58;T.NKn=102;T.NFt=-30;T.FTh=-35;T.FKn=80;T.FFt=-25;T.NSh=-35;T.NEl=-55;T.FSh=25;T.FEl=-75;lean=32;bobY=18;}
  T.lean=lean;T.head=0;
@@ -236,7 +236,7 @@ var camera=0,accumulator=0,coyote=.1,jumps=0,airtime=0,toastT=0,lastMilestone=0;
 var dayClock=4,DAY_SECONDS=240,environmentNight=1;
 // Rain intervals are randomized from 10 in-game hours to four in-game days.
 var rainActive=false,rainHoursToNext=10+Math.random()*86,rainHoursLeft=0,rainAlpha=0,rainWind=0;
-// Thunderstorms can begin only after eight complete in-game days.
+// Thunderstorms begin only after Day 8 is complete (Day 0 numbering).
 var gameHoursElapsed=0,stormsEnabled=false,stormActive=false,stormHoursToNext=0,stormHoursLeft=0,stormBlend=0,stormWind=0,lightningIn=4,lightningFlash=0,thunderIn=-1;
 var reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 try{hi=Number(localStorage.getItem('puerto_rico_run_chill_hi'))||0;}catch(e){}
@@ -473,10 +473,11 @@ var lightningFlashLayer=document.createElementNS(NS,'rect');lightningFlashLayer.
 var rainLines=document.createElementNS(NS,'g');rainLines.setAttribute('shape-rendering','crispEdges');rainLayer.appendChild(rainLines);
 var windLeaves=document.createElementNS(NS,'g');rainLayer.appendChild(windLeaves);var gustLeaves=[];for(var wl=0;wl<12;wl++){var leaf=document.createElementNS(NS,'path');leaf.setAttribute('d','M0 0 Q4 -5 11 -2 Q7 2 0 0Z');leaf.setAttribute('fill',['#b7a44d','#67834d','#a75e3c'][wl%3]);leaf.setAttribute('stroke','#324633');leaf.setAttribute('stroke-width','.7');windLeaves.appendChild(leaf);gustLeaves.push({el:leaf,x:Math.random()*900,y:85+Math.random()*270,phase:Math.random()*6.28,scale:.55+Math.random()*.65});}svg.insertBefore(rainLayer,$('hud'));
 var rainDrops=[];for(var rd=0;rd<150;rd++){var line=document.createElementNS(NS,'path');line.setAttribute('d','M0 0 l-4 12');line.setAttribute('fill','none');line.setAttribute('stroke',rd%4===0?'#d9e7ed':'#b8cfdd');line.setAttribute('stroke-width',rd%5===0?'1.5':'1');line.setAttribute('stroke-linecap','square');rainLines.appendChild(line);rainDrops.push({el:line,x:Math.random()*800,y:Math.random()*450,speed:260+Math.random()*180,length:8+Math.random()*9});}
-function advanceWeather(dt){var hours=dt*24/DAY_SECONDS;gameHoursElapsed+=hours;if(!stormsEnabled&&gameHoursElapsed>=192){stormsEnabled=true;stormHoursToNext=.5+Math.random()*23.5;}if(stormsEnabled){if(stormActive){stormHoursLeft-=hours;if(stormHoursLeft<=0){stormActive=false;stormHoursToNext=24+Math.random()*96;}}else{stormHoursToNext-=hours;if(stormHoursToNext<=0){stormActive=true;stormHoursLeft=3+Math.random()*5;stormWind=(Math.random()<.5?-1:1)*(105+Math.random()*105);lightningIn=1+Math.random()*4;}}}if(!stormActive){if(rainActive){rainHoursLeft-=hours;if(rainHoursLeft<=0){rainActive=false;rainHoursToNext=10+Math.random()*86;}}else{rainHoursToNext-=hours;if(rainHoursToNext<=0){rainActive=true;rainHoursLeft=1.5+Math.random()*2.5;rainWind=(Math.random()-.5)*72;}}}rainAlpha+=((rainActive||stormActive?1:0)-rainAlpha)*Math.min(1,dt*.9);stormBlend+=( (stormActive?1:0)-stormBlend)*Math.min(1,dt*.55);rainLayer.setAttribute('opacity',rainAlpha.toFixed(3));rainWash.setAttribute('opacity',(rainAlpha*(.11+stormBlend*.12)).toFixed(3));if(stormActive){lightningIn-=dt;if(lightningIn<=0){var lx=90+Math.random()*620,ly=32+Math.random()*58,jx=(Math.random()-.5)*64;lightningBolt.setAttribute('d','M'+lx.toFixed(1)+' '+ly.toFixed(1)+' l'+(jx*.35).toFixed(1)+' 17 l'+(-jx*.8).toFixed(1)+' 15 l'+(jx*.55).toFixed(1)+' 13 l'+(-jx*.7).toFixed(1)+' 19 l'+(jx*.45).toFixed(1)+' 16');lightningFlash=1;lightningIn=2.5+Math.random()*7.5;thunderIn=.35+Math.random()*1.2;} }lightningFlash=Math.max(0,lightningFlash-dt*3.2);lightningBolt.setAttribute('opacity',(lightningFlash*(stormActive?1:.6)).toFixed(2));lightningFlashLayer.setAttribute('opacity',(lightningFlash*.42).toFixed(2));if(thunderIn>=0){thunderIn-=dt;if(thunderIn<=0){playThunder();thunderIn=-1;}}}
+function advanceWeather(dt){var hours=dt*24/DAY_SECONDS;gameHoursElapsed+=hours;if(!stormsEnabled&&gameHoursElapsed>=216){stormsEnabled=true;stormHoursToNext=.5+Math.random()*23.5;}if(stormsEnabled){if(stormActive){stormHoursLeft-=hours;if(stormHoursLeft<=0){stormActive=false;stormHoursToNext=24+Math.random()*96;}}else{stormHoursToNext-=hours;if(stormHoursToNext<=0){stormActive=true;stormHoursLeft=3+Math.random()*5;stormWind=(Math.random()<.5?-1:1)*(105+Math.random()*105);lightningIn=1+Math.random()*4;}}}if(!stormActive){if(rainActive){rainHoursLeft-=hours;if(rainHoursLeft<=0){rainActive=false;rainHoursToNext=10+Math.random()*86;}}else{rainHoursToNext-=hours;if(rainHoursToNext<=0){rainActive=true;rainHoursLeft=1.5+Math.random()*2.5;rainWind=(Math.random()-.5)*72;}}}rainAlpha+=((rainActive||stormActive?1:0)-rainAlpha)*Math.min(1,dt*.9);stormBlend+=( (stormActive?1:0)-stormBlend)*Math.min(1,dt*.55);rainLayer.setAttribute('opacity',rainAlpha.toFixed(3));rainWash.setAttribute('opacity',(rainAlpha*(.11+stormBlend*.12)).toFixed(3));if(stormActive){lightningIn-=dt;if(lightningIn<=0){var lx=90+Math.random()*620,ly=32+Math.random()*58,jx=(Math.random()-.5)*64;lightningBolt.setAttribute('d','M'+lx.toFixed(1)+' '+ly.toFixed(1)+' l'+(jx*.35).toFixed(1)+' 17 l'+(-jx*.8).toFixed(1)+' 15 l'+(jx*.55).toFixed(1)+' 13 l'+(-jx*.7).toFixed(1)+' 19 l'+(jx*.45).toFixed(1)+' 16');lightningFlash=1;lightningIn=2.5+Math.random()*7.5;thunderIn=.35+Math.random()*1.2;} }lightningFlash=Math.max(0,lightningFlash-dt*3.2);lightningBolt.setAttribute('opacity',(lightningFlash*(stormActive?1:.6)).toFixed(2));lightningFlashLayer.setAttribute('opacity',(lightningFlash*.42).toFixed(2));if(thunderIn>=0){thunderIn-=dt;if(thunderIn<=0){playThunder();thunderIn=-1;}}}
 function playThunder(){try{if(!sndOn)return;if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();var now=actx.currentTime,buffer=actx.createBuffer(1,Math.floor(actx.sampleRate*2.2),actx.sampleRate),data=buffer.getChannelData(0);for(var i=0;i<data.length;i++){var fade=1-i/data.length;data[i]=(Math.random()*2-1)*fade*fade;}var noise=actx.createBufferSource(),filter=actx.createBiquadFilter(),gain=actx.createGain();noise.buffer=buffer;filter.type='lowpass';filter.frequency.setValueAtTime(260,now);filter.frequency.exponentialRampToValueAtTime(75,now+2);gain.gain.setValueAtTime(.14,now);gain.gain.exponentialRampToValueAtTime(.001,now+2.2);noise.connect(filter);filter.connect(gain);gain.connect(actx.destination);noise.start(now);noise.stop(now+2.2);var rumble=actx.createOscillator(),rg=actx.createGain();rumble.type='triangle';rumble.frequency.setValueAtTime(68,now);rumble.frequency.exponentialRampToValueAtTime(34,now+1.8);rg.gain.setValueAtTime(.12,now);rg.gain.exponentialRampToValueAtTime(.001,now+1.9);rumble.connect(rg);rg.connect(actx.destination);rumble.start(now);rumble.stop(now+1.9);}catch(e){}}
 function animateRain(dt){if(state!=='play'||rainAlpha<.01)return;var wind=stormActive?stormWind:(rainActive?rainWind:0),count=stormActive?150:90;rainDrops.forEach(function(d,i){if(i>=count){d.el.setAttribute('opacity','0');return;}var fall=d.speed*(stormActive?1.55:1);d.y+=fall*dt;d.x+=(wind+fall*.12)*dt;if(d.y>462){d.y=-d.length-Math.random()*80;d.x=Math.random()*800;}if(d.x<-12)d.x+=824;if(d.x>812)d.x-=824;d.el.setAttribute('d','M0 0 l'+(-4+wind*.045).toFixed(1)+' '+(stormActive?d.length*1.55:d.length).toFixed(1));d.el.setAttribute('transform','translate('+d.x.toFixed(1)+' '+d.y.toFixed(1)+')');d.el.setAttribute('opacity',(rainAlpha*(.35+(d.speed-260)/300+(stormActive ? .2 : 0))).toFixed(2));});gustLeaves.forEach(function(leaf,i){if(!stormActive){leaf.el.setAttribute('opacity','0');return;}var x=((leaf.x+stormWind*worldTime*.48+Math.sin(worldTime*2.2+leaf.phase)*24+960)%960)-60,y=leaf.y+Math.sin(worldTime*2.8+leaf.phase)*22,angle=worldTime*(stormWind<0?-145:145)+leaf.phase*57;leaf.el.setAttribute('transform','translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+angle.toFixed(1)+') scale('+leaf.scale.toFixed(2)+')');leaf.el.setAttribute('opacity',(stormBlend*.64).toFixed(2));});}
 var timeLabel=document.createElementNS(NS,'text');timeLabel.setAttribute('x',780);timeLabel.setAttribute('y',60);timeLabel.setAttribute('text-anchor','end');timeLabel.setAttribute('font-size',13);timeLabel.setAttribute('font-family','system-ui');timeLabel.setAttribute('fill','#fff3dc');timeLabel.setAttribute('stroke','#243248');timeLabel.setAttribute('stroke-width',3);timeLabel.setAttribute('paint-order','stroke');svg.insertBefore(timeLabel,$('msg'));
+var dayLabel=document.createElementNS(NS,'text');dayLabel.setAttribute('x',780);dayLabel.setAttribute('y',80);dayLabel.setAttribute('text-anchor','end');dayLabel.setAttribute('font-size',13);dayLabel.setAttribute('font-family','system-ui');dayLabel.setAttribute('fill','#fff3dc');dayLabel.setAttribute('stroke','#243248');dayLabel.setAttribute('stroke-width',3);dayLabel.setAttribute('paint-order','stroke');svg.insertBefore(dayLabel,$('msg'));
 var lightKeys=[
  [0,'#081126','#172b49',1], [4,'#121c38','#353c61',.92],
  [5.5,'#626b91','#e9a78c',.44], [7,'#80b6d5','#f7dec1',.05],
@@ -494,6 +495,7 @@ function drawTime(){var hour=dayClock,lo=lightKeys[0],hi=lightKeys[1];for(var k=
  var name=hour<3?'Medianoche':hour<5.5?'Madrugada':hour<7.5?'Amanecer':hour<11?'Mañana':hour<14?'Mediodía':hour<17?'Tarde':hour<19.5?'Atardecer':hour<23?'Noche':'Medianoche';
  var clockHour=Math.floor(hour)%12||12,period=hour<12?'AM':'PM';
  timeLabel.textContent=name+' · '+clockHour+':'+String(Math.floor(hour%1*60)).padStart(2,'0')+' '+period+(stormBlend>.25?' · Tormenta':rainAlpha>.25?' · Lluvia':'');
+ dayLabel.textContent='Día '+Math.floor(gameHoursElapsed/24);
 }
 function showMsg(a,b){$('m1').textContent=a;$('m2').textContent=b;$('msg').style.display='';}
 function hideMsg(){$('msg').style.display='none';}
@@ -502,7 +504,7 @@ let automatic=false,fastWalk=false,facing=1,runningMotion=false;
 const movement=new Set();
 function setAuto(enabled){
  automatic=enabled;$('auto').setAttribute('aria-pressed',String(enabled));
- $('auto').textContent=enabled?'Volver al paseo':'Carrera automática';
+ $('auto').textContent=enabled?'Volver al paseo':'Patinaje automático';
  if(enabled){facing=1;speed=380;runningMotion=true;}else{speed=0;runningMotion=false;}
 }
 function movePress(key){
