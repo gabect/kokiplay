@@ -586,7 +586,7 @@ function update(dt){if(state!=='play')return;ensureHouses();worldTime+=dt;dayClo
  for(var i=particles.length-1;i>=0;i--){var p=particles[i];p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=90*dt;if(p.life<=0){p.el.remove();particles.splice(i,1);}}
 }
 function drawFlashlight(){var lens=$('flashlightLens'),rootM=svg.getScreenCTM(),inverse=rootM.inverse(),lensM=lens.getScreenCTM();function project(x,y){var p=svg.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(lensM).matrixTransform(inverse);}const o = project(83,205);
- const reach = 200, endX = o.x + facing * reach;
+ const reach = 250, endX = o.x + facing * reach;
  const roadY = x => GY - E(dist + x) + camera;
  const tremor = Math.sin(worldTime * 5) * (runningMotion ? 1.2 : .5);
  const endY = roadY(endX) - 3 + tremor;
@@ -594,7 +594,7 @@ function drawFlashlight(){var lens=$('flashlightLens'),rootM=svg.getScreenCTM(),
  const axisAngle = Math.atan2(endY - o.y, reach);
  const axisLength = Math.hypot(reach, endY - o.y);
  const lowerAngle = Math.atan2(endY + 30 - (o.y + 4), reach);
- const upperSpread = Math.PI / 4 - (lowerAngle - axisAngle);
+ const upperSpread = 80 * Math.PI / 180 - (lowerAngle - axisAngle);
  const points = [];
  // Each ray travels straight until it meets the road or reaches the range limit.
  for (let ray = -24; ray <= 24; ray++) {
