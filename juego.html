@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Puerto Rico Run Chill Version</title>
+<title>Tropical Run</title>
 <style>
 :root{--bg:#f6f3ee;--fg:#1d1a22;--mut:#6b6572;--card:#ffffff;--line:#d9d3cb;--acc:#b93a37;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1820;--fg:#f1ece4;--mut:#a39cab;--card:#26222d;--line:#3a3543;--acc:#e0645f}}
@@ -20,7 +20,7 @@ button:active{transform:translateY(1px)}
 
 body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-action:none;box-shadow:0 18px 60px #47392120} button:focus-visible,#stage:focus-visible{outline:3px solid #bc7337;outline-offset:4px} .ctrl{flex-wrap:wrap} #jump{min-width:120px} @media(max-width:600px){main{padding:12px 8px} button{padding:12px 10px} h1{font-size:18px}} @media(prefers-color-scheme:dark){body{background:#1b1820}}
  .movePad{display:flex;gap:5px;margin-left:auto}.movePad button{touch-action:none;user-select:none;min-width:45px}button[aria-pressed=true]#run,button[aria-pressed=true]#auto{background:#427557;color:white}</style></head><body><main>
-<h1>Puerto Rico Run Chill Version</h1>
+<h1>Tropical Run</h1>
 <p class="s">Explora con ← y →. Mantén Shift para correr o activa «Correr» en los controles táctiles. Salta con ↑ o espacio. «Carrera automática» inicia el recorrido clásico.</p>
 <div id="stage" tabindex="0" role="region" aria-label="Juego. Espacio para saltar, P para pausar"><svg id="game" viewBox="0 0 800 450" aria-label="Juego de correr y saltar obstáculos">
 <g id="sky"><rect width="800" height="60" fill="#6f9ec8"/><rect y="60" width="800" height="70" fill="#86b2d0"/><rect y="130" width="800" height="60" fill="#a8c9d6"/><rect y="190" width="800" height="60" fill="#c9d8c8"/><rect y="250" width="800" height="50" fill="#ecd6a8"/><rect y="300" width="800" height="60" fill="#f4c78e"/>
@@ -551,7 +551,7 @@ function render(dt){drawTime();var g=E(dist+PX);layers.forEach(function(L){L.el.
  particles.forEach(function(p){p.el.setAttribute('cx',(p.x-dist).toFixed(1));p.el.setAttribute('cy',p.y.toFixed(1));p.el.setAttribute('r',3);p.el.setAttribute('opacity',Math.max(0,p.life).toFixed(2));});note.setAttribute('opacity',Math.min(1,toastT).toFixed(2));$('hud').textContent=Math.floor(dist/40)+' m · '+Math.round(Math.abs(speed)/12)+' km/h'+(onLine?(sliding?' · Deslizando en cuerda':' · Corriendo en cuerda'):(sliding?' · Deslizando':''));$('hi').textContent='Mejor '+Math.max(hi,Math.floor(dist/40))+' m';
 }
 function frame(ts){if(!last)last=ts;var elapsed=Math.min(.25,(ts-last)/1000);last=ts;if(state==='play'){accumulator+=elapsed;while(accumulator>=1/120){update(1/120);accumulator-=1/120;}}if(state==='dead'){deadT+=elapsed;crashT+=elapsed;}if(state!=='paused')render(Math.max(.001,elapsed));requestAnimationFrame(frame);}
-h=E(PX);camera=h-55;showMsg('Puerto Rico Run','Usa las flechas para pasear');render(.016);requestAnimationFrame(frame);
+h=E(PX);camera=h-55;showMsg('Tropical Run','Usa las flechas para pasear');render(.016);requestAnimationFrame(frame);
 })();
 
 </script></body></html>
