@@ -296,16 +296,45 @@ function windowLight(hour, index){
  const off=21+((index*43)%60)/60*2.9;
  return Math.max(0,Math.min(1,(hour-on)/.1,(off+.1-hour)/.1));
 }
+var ruralInfra=document.createElementNS(NS,'g');ruralInfra.id='ruralInfra';$('obs').appendChild(ruralInfra);
+function treeAsset(index){
+ const choices=['rural/assets/banana-grove.webp','rural/assets/tree-mango-fruit.webp','rural/assets/tree-jobo.webp','rural/assets/tree-mango-green.webp','rural/assets/banana-young.webp'];
+ return choices[index%choices.length];
+}
+function drawRuralInfrastructure(){
+ const span=2100, first=Math.max(0,Math.floor((dist-900)/span)), last=Math.floor((dist+W+1600)/span);
+ let art='';
+ for(let i=first;i<=last;i++){
+  const x=i*span+240, base=GY-E(x)-pathDepth, top=base-138;
+  const pole=i%4===1?'pole-transformer.webp':'pole-utility.webp';
+  art+='<path d="M'+(x-30)+' '+(top+24)+' Q'+(x+span/2)+' '+(top+52)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-114)+'" fill="none" stroke="#352e27" stroke-width="2.2" opacity=".88"/>';
+  art+='<path d="M'+(x-30)+' '+(top+34)+' Q'+(x+span/2)+' '+(top+62)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-104)+'" fill="none" stroke="#453930" stroke-width="1.35"/>';
+  art+='<path d="M'+(x-30)+' '+(top+43)+' Q'+(x+span/2)+' '+(top+71)+' '+(x+span-30)+' '+(GY-E(x+span)-pathDepth-95)+'" fill="none" stroke="#51463b" stroke-width="1.15"/>';
+  houseList.forEach(function(q){
+   const hx=q.x+q.w*.7;if(Math.abs(hx-x)>span*.58)return;
+   const hy=GY-q.roof+29, wireY=top+31;
+   art+='<path d="M'+(hx-x)+' '+hy+' Q'+(hx-x+42)+' '+(wireY-8)+' '+(x-x)+' '+wireY+'" fill="none" stroke="#4b4035" stroke-width="1.5"/>';
+  });
+  art+='<image href="rural/assets/'+pole+'" x="'+(x-33)+'" y="'+top+'" width="66" height="138" preserveAspectRatio="xMidYMax meet"/>';
+ }
+ const lightSpan=2000000, lightFirst=Math.max(0,Math.floor((dist-1200)/lightSpan)), lightLast=Math.floor((dist+W+1200)/lightSpan);
+ for(let i=lightFirst;i<=lightLast;i++){
+  const x=(i+1)*lightSpan, base=GY-E(x)-pathDepth, top=base-140;
+  const lampX=x+29, lampY=top+25, endY=base-1;
+  art+='<path d="M'+lampX+' '+lampY+' L'+(lampX-55)+' '+endY+' Q'+lampX+' '+(endY-10)+' '+(lampX+84)+' '+endY+' Z" fill="url(#warmLampBeam)" opacity=".68"/>';
+  art+='<ellipse cx="'+lampX+'" cy="'+(lampY+2)+'" rx="6" ry="3.5" fill="#ffe69a" opacity=".88"/>';
+  art+='<image href="rural/assets/pole-streetlight.webp" x="'+(x-34)+'" y="'+top+'" width="80" height="140" preserveAspectRatio="xMidYMax meet"/>';
+ }
+ ruralInfra.innerHTML=art;
+ ruralInfra.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
+}
 function drawHouses(){let litMasks='';ensureHouses();houseList.forEach(function(q){
  if(q.x>dist+900)return;
  const roofY=GY-q.roof,groundY=GY-q.base-pathDepth;
- const house=[0,1,4,5,7][q.i%5],plant=q.i%6;
- const plantHeight=plant<2?157:plant<4?183:86;
- const plantWidth=plant<2?207:plant<4?90:75;
- const treeX=-plantWidth*.76;
- const treeBase=GY-pathDepth-E(q.x+treeX+plantWidth/2);
- let art=q.yard+'<image href="rural/flora'+plant+'.webp" x="'+treeX+'" y="'+(treeBase-plantHeight)+'" width="'+plantWidth+'" height="'+plantHeight+'" preserveAspectRatio="xMidYMax meet"/>';
- // Contact shadow follows the foundation, while the projecting steps sit on the path.
+ const house=[0,1,4,5,7][q.i%5];
+ const treeWidth=150,treeHeight=116,treeX=-treeWidth*.78;
+ const treeWorld=q.x+treeX+treeWidth/2,treeBase=GY-E(treeWorld)-pathDepth;
+ let art=q.yard+'<image href="'+treeAsset(q.i)+'" x="'+treeX+'" y="'+(treeBase-treeHeight)+'" width="'+treeWidth+'" height="'+treeHeight+'" preserveAspectRatio="xMidYMax meet"/>';
  art+='<ellipse cx="'+q.w*.5+'" cy="'+(groundY+1)+'" rx="'+q.w*.46+'" ry="3.5" fill="#352d27" opacity=".32"/>';
  art+='<image href="rural/casa'+house+'.webp" y="'+roofY+'" width="'+q.w+'" height="150" preserveAspectRatio="none"/>';
  const light=windowLight(dayClock,q.i);
@@ -314,12 +343,13 @@ function drawHouses(){let litMasks='';ensureHouses();houseList.forEach(function(
   art+=pane;
   litMasks+='<g transform="translate('+(q.x-dist).toFixed(2)+' 0)">'+pane+'</g>';
  }
- // The same line profile drives drawing, landing and running.
  var l=q.line,lx=l.a-q.x,far=l.b-q.x,ly=GY-l.ha,fy=GY-l.hb,cy=(ly+fy)/2+2*l.sag;
  art+='<path d="M'+lx+' '+(GY-E(l.a)-pathDepth)+' V'+(ly-5)+' M'+far+' '+(GY-E(l.b)-pathDepth)+' V'+(fy-5)+'" stroke="#766044" stroke-width="4"/><path d="M'+lx+' '+ly+' Q'+((lx+far)/2)+' '+cy+' '+far+' '+fy+'" stroke="#584f42" fill="none" stroke-width="2.5"/>';
  l.clothes.forEach(function(c,k){if(c.dropped)return;var sway=reduceMotion?0:Math.sin(worldTime*2+k+q.i)*5;art+='<g transform="translate('+(c.x-q.x)+' '+(GY-lineH(l,c.x))+') rotate('+sway+')">'+garment(c.kind)+'<path d="M-8 -3 v7 M8 -3 v7" stroke="#a5814e" stroke-width="3"/></g>';});
  q.g.innerHTML=art;q.g.setAttribute('transform','translate('+(q.x-dist).toFixed(2)+' 0)');});
+ drawRuralInfrastructure();
  $('litPanes').innerHTML=litMasks; $('litMaskWorld').setAttribute('transform',world.getAttribute('transform'));}
+function slope(x){return (E(x+1)-E(x-1))/2;}
 function slope(x){return (E(x+1)-E(x-1))/2;}
 function beep(f1,f2,d,type,v){if(!sndOn)return;try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();var o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.setValueAtTime(f1,actx.currentTime);o.frequency.exponentialRampToValueAtTime(f2,actx.currentTime+d);g.gain.setValueAtTime(v,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+d);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+d);}catch(e){}}
 var svg=$('game'),world=document.createElementNS(NS,'g');world.id='world';
@@ -337,7 +367,7 @@ defs.insertAdjacentHTML('beforeend',`
 <pattern id="trailEarth" width="4096" height="640" patternUnits="userSpaceOnUse"><image href="rural/ladera-larga.webp" width="4096" height="640"/></pattern>`);
 const bankSurface=document.createElementNS(NS,'g');
 $('terrain').insertBefore(bankSurface,$('hillCap'));
-defs.insertAdjacentHTML('beforeend','<linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
+defs.insertAdjacentHTML('beforeend','<linearGradient id="warmLampBeam" x1=".5" y1="0" x2=".5" y2="1"><stop stop-color="#ffd56d" stop-opacity=".62"/><stop offset=".62" stop-color="#ffd56d" stop-opacity=".19"/><stop offset="1" stop-color="#ffd56d" stop-opacity="0"/></linearGradient><linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
 const nearVerge=document.createElementNS(NS,'g');
 world.appendChild(nearVerge);
 function roadsideBlock(block){
