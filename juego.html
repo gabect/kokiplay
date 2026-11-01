@@ -331,7 +331,7 @@ function drawRuralInfrastructure(){
    if(Math.abs(hx-x)>Math.abs(hx-nextX))return;
    if(Math.abs(hx-x)>1450)return;
    const hy=GY-q.roof+20, wireY=wire0+5;
-   const lo=Math.min(hx,x),hi=Math.max(hx,x),up= hx<x?wireY:hy,down=hx<x?hy:wireY;
+   const lo=Math.min(hx,x),hi=Math.max(hx,x),up=hx<x?hy:wireY,down=hx<x?wireY:hy;
    let drop='';for(let n=0;n<=20;n++){
     const t=n/20,wx=lo+(hi-lo)*t,raw=up+(down-up)*t+9*Math.sin(Math.PI*t);
     const y=Math.min(raw,GY-E(wx)-48);drop+=(n?'L':'M')+wx.toFixed(1)+' '+y.toFixed(1);
