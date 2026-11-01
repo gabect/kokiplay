@@ -193,6 +193,8 @@ var P={Th:[60,214],Kn:[60,262],Ft:[60,322],Sh:[62,132],El:[62,166]};
 var els={};["N","F"].forEach(function(p){["Th","Kn","Ft","Sh","El"].forEach(function(j){els[p+j]=$(p+j);});});
 var rig=$("rig"),bob=$("bob"),lean1=$("lean1"),lean2=$("lean2"),headG=$("headG");
 var RUN={thigh:[-42,-30,0,30,42,30,0,-30,-42],knee:[10,20,12,25,55,95,110,60,10],foot:[22,10,-12,-30,-45,-60,-60,-25,22],sho:[40,28,0,-28,-40,-28,0,28,40],elb:[-70,-75,-85,-95,-100,-95,-85,-75,-70]};
+// A distinct, shorter stride keeps the walking gait upright and relaxed.
+var WALK={thigh:[-19,-14,-4,9,17,11,-2,-13,-19],knee:[9,18,24,15,9,18,24,15,9],foot:[7,2,-7,-13,-8,1,8,14,7],sho:[17,13,3,-9,-15,-10,1,12,17],elb:[-42,-45,-51,-58,-61,-57,-50,-44,-42]};
 var KT=[0,.15,.3,.5,.75,.9,1];
 var JN={thigh:[0,-55,-5,-70,-25,-60,0],knee:[0,95,10,110,25,95,0],foot:[0,-35,25,-30,10,-35,0],sho:[0,25,-118,-88,-105,20,0],elb:[-10,-20,-20,-40,-30,-20,-10]};
 var JF={thigh:[0,-45,15,-45,10,-50,0],knee:[0,85,40,90,35,85,0],foot:[0,-35,25,-30,10,-35,0],sho:[0,20,-105,-70,-95,15,0],elb:[-10,-25,-25,-50,-35,-25,-10]};
@@ -207,10 +209,10 @@ function pose(dt,gF,gB,g){
  else if(!grounded){var ph=Math.max(0,Math.min(1,(800-vy)/1600));var t=0.3+0.6*ph;
   T.NTh=lerpKT(JN.thigh,t);T.NKn=lerpKT(JN.knee,t);T.NFt=lerpKT(JN.foot,t);T.NSh=lerpKT(JN.sho,t);T.NEl=lerpKT(JN.elb,t);
   T.FTh=lerpKT(JF.thigh,t);T.FKn=lerpKT(JF.knee,t);T.FFt=lerpKT(JF.foot,t);T.FSh=lerpKT(JF.sho,t);T.FEl=lerpKT(JF.elb,t);lean=lerpKT(JL,t);}
- else{var c=phase;T.NTh=lerpEq(RUN.thigh,c);T.NKn=lerpEq(RUN.knee,c);T.NFt=lerpEq(RUN.foot,c);T.NSh=lerpEq(RUN.sho,c);T.NEl=lerpEq(RUN.elb,c);
-  T.FTh=lerpEq(RUN.thigh,c+.5);T.FKn=lerpEq(RUN.knee,c+.5);T.FFt=lerpEq(RUN.foot,c+.5);T.FSh=lerpEq(RUN.sho,c+.5);T.FEl=lerpEq(RUN.elb,c+.5);
-  bobY=-2+3*Math.cos(4*Math.PI*c);if(landT>0){bobY+=10*landT/0.12;}
-  var sl=(gF-gB)/26;tl=-facing*Math.atan(sl)*180/Math.PI;}
+ else{var c=phase,gait=runningMotion?RUN:WALK;T.NTh=lerpEq(gait.thigh,c);T.NKn=lerpEq(gait.knee,c);T.NFt=lerpEq(gait.foot,c);T.NSh=lerpEq(gait.sho,c);T.NEl=lerpEq(gait.elb,c);
+  T.FTh=lerpEq(gait.thigh,c+.5);T.FKn=lerpEq(gait.knee,c+.5);T.FFt=lerpEq(gait.foot,c+.5);T.FSh=lerpEq(gait.sho,c+.5);T.FEl=lerpEq(gait.elb,c+.5);
+  bobY=runningMotion?(-2+3*Math.cos(4*Math.PI*c)):(-1+1.2*Math.cos(2*Math.PI*c));if(landT>0){bobY+=10*landT/0.12;}
+  var sl=(gF-gB)/26;tl=-facing*Math.atan(sl)*(runningMotion?1:.45)*180/Math.PI;}
  if(sliding&&grounded){T.NTh=-58;T.NKn=102;T.NFt=-30;T.FTh=-35;T.FKn=80;T.FFt=-25;T.NSh=-35;T.NEl=-55;T.FSh=25;T.FEl=-75;lean=32;bobY=18;}
  T.lean=lean;T.head=0;
  var k=1-Math.exp(-dt*26);
@@ -469,17 +471,18 @@ function drawTime(){var hour=dayClock,lo=lightKeys[0],hi=lightKeys[1];for(var k=
  var moonPhase=((hour-18+24)%24)/12;$('moonOrbit').setAttribute('transform','translate('+(85+630*moonPhase).toFixed(2)+' '+(315-238*Math.sin(moonPhase*Math.PI)).toFixed(2)+')');$('moonOrbit').setAttribute('opacity',moonPhase<=1?Math.min(1,moonPhase*12,(1-moonPhase)*12).toFixed(3):'0');
  $('stars').setAttribute('opacity',Math.max(0,(environmentNight-.35)/.65).toFixed(3));nightTint.setAttribute('opacity',(environmentNight*.93).toFixed(4));
  var name=hour<3?'Medianoche':hour<5.5?'Madrugada':hour<7.5?'Amanecer':hour<11?'Mañana':hour<14?'Mediodía':hour<17?'Tarde':hour<19.5?'Atardecer':hour<23?'Noche':'Medianoche';
- timeLabel.textContent=name+' · '+String(Math.floor(hour)).padStart(2,'0')+':'+String(Math.floor(hour%1*60)).padStart(2,'0');
+ var clockHour=Math.floor(hour)%12||12,period=hour<12?'AM':'PM';
+ timeLabel.textContent=name+' · '+clockHour+':'+String(Math.floor(hour%1*60)).padStart(2,'0')+' '+period;
 }
 function showMsg(a,b){$('m1').textContent=a;$('m2').textContent=b;$('msg').style.display='';}
 function hideMsg(){$('msg').style.display='none';}
 function save(){hi=Math.max(hi,Math.floor(dist/40));try{localStorage.setItem('puerto_rico_run_chill_hi',String(hi));}catch(e){}}
-let automatic=false,fastWalk=false,facing=1;
+let automatic=false,fastWalk=false,facing=1,runningMotion=false;
 const movement=new Set();
 function setAuto(enabled){
  automatic=enabled;$('auto').setAttribute('aria-pressed',String(enabled));
  $('auto').textContent=enabled?'Volver al paseo':'Carrera automática';
- if(enabled){facing=1;speed=380;}else speed=0;
+ if(enabled){facing=1;speed=380;runningMotion=true;}else{speed=0;runningMotion=false;}
 }
 function movePress(key){
  if(state==='paused')return;
@@ -522,12 +525,13 @@ function update(dt){if(state!=='play')return;ensureHouses();worldTime+=dt;dayClo
  }else{
   const direction=Number(movement.has('ArrowRight')||movement.has('touchRight'))-Number(movement.has('ArrowLeft')||movement.has('touchLeft'));
   const running=fastWalk||movement.has('ShiftLeft')||movement.has('ShiftRight');
+  runningMotion=direction!==0&&running;
   speed=direction*(running?365:105);
   if(dist<=0&&speed<0)speed=0;
   if(speed)facing=Math.sign(speed);
   sliding=grounded&&speed!==0&&(running||onLine)&&sl*facing<(onLine?-.035:-.38);
  }
- dist=Math.max(0,dist+speed*dt);var x=dist+PX,g=E(x),gap=isGap(x);phase=(phase+Math.abs(speed)*dt/250)%1;
+ dist=Math.max(0,dist+speed*dt);var x=dist+PX,g=E(x),gap=isGap(x);phase=(phase+Math.abs(speed)*dt/(runningMotion?250:105))%1;
  if(grounded&&onLine){if(x>=onLine.a&&x<=onLine.b){h=lineH(onLine,x);vy=sl*speed;coyote=.085;dropClothes(onLine,oldX,x);}else{grounded=false;onLine=null;vy=sl*speed;airtime=0;coyote=.085;}}
  else if(grounded&&onRoof){if(x>=onRoof.x&&x<=onRoof.end){h=onRoof.roof;vy=0;}else{grounded=false;onRoof=null;vy=0;airtime=0;coyote=.085;}}
  else if(grounded){if(gap){grounded=false;sliding=false;vy=Math.min(0,sl*speed);airtime=0;coyote=.085;}else{h=g;vy=sl*speed;coyote=.085;if(sliding&&slideDust<=0){dust(2);slideDust=.065;}}}
