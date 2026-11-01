@@ -467,16 +467,38 @@ var lightingDefs=document.createElementNS(NS,'defs');
 lightingDefs.innerHTML='<filter id="paneInk"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter><filter id="runnerPaper"><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0"/></filter><filter id="beamSoftMask"><feGaussianBlur stdDeviation="3.5"/></filter><linearGradient id="flashBeamWarm" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe8a8" stop-opacity="0.430"/><stop offset="0.1" stop-color="#ffe8a8" stop-opacity="0.413"/><stop offset="0.2" stop-color="#ffe8a8" stop-opacity="0.371"/><stop offset="0.3" stop-color="#ffe8a8" stop-opacity="0.316"/><stop offset="0.4" stop-color="#ffe8a8" stop-opacity="0.262"/><stop offset="0.5" stop-color="#ffe8a8" stop-opacity="0.215"/><stop offset="0.6" stop-color="#ffe8a8" stop-opacity="0.176"/><stop offset="0.7" stop-color="#ffe8a8" stop-opacity="0.145"/><stop offset="0.8" stop-color="#ffe8a8" stop-opacity="0.121"/><stop offset="0.9" stop-color="#ffe8a8" stop-opacity="0.061"/><stop offset="1" stop-color="#ffe8a8" stop-opacity="0.000"/></linearGradient><linearGradient id="flashBeamReveal" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="black" stop-opacity="1.000"/><stop offset="0.1" stop-color="black" stop-opacity="0.962"/><stop offset="0.2" stop-color="black" stop-opacity="0.862"/><stop offset="0.3" stop-color="black" stop-opacity="0.735"/><stop offset="0.4" stop-color="black" stop-opacity="0.610"/><stop offset="0.5" stop-color="black" stop-opacity="0.500"/><stop offset="0.6" stop-color="black" stop-opacity="0.410"/><stop offset="0.7" stop-color="black" stop-opacity="0.338"/><stop offset="0.8" stop-color="black" stop-opacity="0.281"/><stop offset="0.9" stop-color="black" stop-opacity="0.142"/><stop offset="1" stop-color="black" stop-opacity="0.000"/></linearGradient><mask id="litPaneMask" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="450"><rect width="800" height="450" fill="white"/><g id="litMaskWorld"><g id="litPanes" filter="url(#paneInk)"></g><use href="#rig" filter="url(#runnerPaper)"/></g><path id="flashlightMaskBeam" fill="url(#flashBeamReveal)" opacity="0" filter="url(#beamSoftMask)"/></mask>';
 svg.appendChild(lightingDefs);
 var nightTint=document.createElementNS(NS,'rect');nightTint.setAttribute('width',800);nightTint.setAttribute('height',450);nightTint.setAttribute('fill','#070c18');nightTint.setAttribute('pointer-events','none');nightTint.setAttribute('mask','url(#litPaneMask)');svg.insertBefore(nightTint,$('hud'));var flashlightBeamGlow=document.createElementNS(NS,'path');flashlightBeamGlow.setAttribute('fill','url(#flashBeamWarm)');flashlightBeamGlow.setAttribute('pointer-events','none');svg.insertBefore(flashlightBeamGlow,$('hud'));
-// Nested cones soften angular intensity while sharing the distance gradients.
-const beamBands = Array.from({length: 12}, (_, index) => {
-  const reveal = $('flashlightMaskBeam').cloneNode(false);
-  reveal.removeAttribute('id');
-  reveal.removeAttribute('filter');
-  $('flashlightMaskBeam').parentNode.appendChild(reveal);
-  const glow = flashlightBeamGlow.cloneNode(false);
-  svg.insertBefore(glow, $('hud'));
-  return {reveal, glow, radius: 24 - index * 2};
-});
+// Precompute continuous angular falloff once, in beam-local coordinates.
+const halfAngle = 25 * Math.PI / 180;
+const beamTexture = document.createElement('canvas');
+beamTexture.width = 256;
+beamTexture.height = 248;
+const brush = beamTexture.getContext('2d');
+const pixels = brush.createImageData(256, 248);
+for (let y = 0; y < 248; y++) {
+  for (let x = 0; x < 256; x++) {
+    const radius = 2 + (x + 0.5) * Math.tan(halfAngle);
+    const t = Math.min(1, Math.abs(y + 0.5 - 124) / radius);
+    const offset = (y * 256 + x) * 4;
+    pixels.data.fill(255, offset, offset + 3);
+    pixels.data[offset + 3] = 255 * (1 - t*t*(3 - 2*t));
+  }
+}
+brush.putImageData(pixels, 0, 0);
+const angularMask = document.createElementNS(NS,'mask');
+angularMask.id = 'angularLight';
+for (const [key,value] of Object.entries({maskUnits:'userSpaceOnUse',x:0,y:0,width:800,height:450})) angularMask.setAttribute(key,value);
+const angularImage = document.createElementNS(NS,'image');
+angularImage.setAttribute('href',beamTexture.toDataURL());
+angularImage.setAttribute('y',-124);
+angularImage.setAttribute('width',256);
+angularImage.setAttribute('height',248);
+angularMask.appendChild(angularImage);
+lightingDefs.appendChild(angularMask);
+const beamLayers = [$('flashlightMaskBeam'), flashlightBeamGlow];
+for (const layer of beamLayers) {
+  layer.removeAttribute('filter');
+  layer.setAttribute('mask','url(#angularLight)');
+}
 // Screen-space rain overlay, drawn over the scenery but beneath the HUD.
 var rainLayer=document.createElementNS(NS,'g');rainLayer.setAttribute('pointer-events','none');rainLayer.setAttribute('opacity','0');
 var rainWash=document.createElementNS(NS,'rect');rainWash.setAttribute('width',800);rainWash.setAttribute('height',450);rainWash.setAttribute('fill','#30445a');rainWash.setAttribute('opacity','.08');rainLayer.appendChild(rainWash);
@@ -593,36 +615,27 @@ function drawFlashlight(){var lens=$('flashlightLens'),rootM=svg.getScreenCTM(),
  const f = value => value.toFixed(1);
  const axisAngle = Math.atan2(endY - o.y, reach);
  const axisLength = Math.hypot(reach, endY - o.y);
- const lowerAngle = Math.atan2(endY + 30 - (o.y + 4), reach);
- const upperSpread = 80 * Math.PI / 180 - (lowerAngle - axisAngle);
+ angularImage.setAttribute('transform','translate('+o.x+' '+o.y+') scale('+facing+' 1) rotate('+(axisAngle*180/Math.PI)+') scale('+(axisLength/250)+' '+(axisLength/250)+')');
  const points = [];
- // Each ray travels straight until it meets the road or reaches the range limit.
- for (let ray = -24; ray <= 24; ray++) {
-   const fraction = ray / 12;
+ for (let ray = -48; ray <= 48; ray++) {
+   const fraction = ray / 48;
    const startY = o.y + 2 * fraction;
-   const angle = axisAngle + upperSpread * ray / 24;
-   const forward = ray < 0 ? axisLength * Math.cos(angle) : reach;
-   const rise = ray < 0 ? axisLength * Math.sin(angle) : endY + 15 * fraction - startY;
+   const angle = axisAngle + halfAngle * fraction;
+   const forward = axisLength * Math.cos(angle);
+   const rise = axisLength * Math.sin(angle);
    let x = o.x, y = startY;
    for (let step = 1; step <= 60; step++) {
      const t = step / 60;
      x = o.x + facing * forward * t;
      y = startY + rise * t;
-     if (y >= roadY(x)) { y = roadY(x) + 1; break; }
+     if (y >= roadY(x)) { y = roadY(x); break; }
    }
    points.push(f(x) + ' ' + f(y));
  }
- for (const band of beamBands) {
-   const radius = band.radius;
-   const rim = points.slice(24 - radius, 25 + radius);
-   const aperture = radius / 6;
-   const outline = 'M ' + f(o.x) + ' ' + f(o.y-aperture) + ' L ' +
-     rim.join(' L ') + ' L ' + f(o.x) + ' ' + f(o.y+aperture) + ' Z';
-   const strength = flashlightFade * (0.017 + 0.31 * (1-radius/24));
-   for (const layer of [band.reveal, band.glow]) {
-     layer.setAttribute('d', outline);
-     layer.setAttribute('opacity', strength);
-   }
+ const outline = 'M '+f(o.x)+' '+f(o.y-2)+' L '+points.join(' L ')+' L '+f(o.x)+' '+f(o.y+2)+' Z';
+ for (const layer of beamLayers) {
+   layer.setAttribute('d',outline);
+   layer.setAttribute('opacity',flashlightFade);
  }
  for (const grad of [$('flashBeamWarm'), $('flashBeamReveal')]) {grad.setAttribute('x1',f(o.x));grad.setAttribute('y1',f(o.y));grad.setAttribute('x2',f(endX));grad.setAttribute('y2',f(endY)); }}
 function render(dt){drawTime();animateRain(dt);var g=E(dist+PX);layers.forEach(function(L){L.el.setAttribute('transform','translate('+(-((dist*L.k)%TILE)).toFixed(1)+' 0)');});drawValley(dist);world.setAttribute('transform','translate(0 '+camera.toFixed(2)+')');drawTerrain();drawHouses();$('shadow').style.display=isGap(dist+PX)?'none':'';pose(dt,onLine?lineH(onLine,dist+PX+13):(onRoof?onRoof.roof:E(dist+PX+13)),onLine?lineH(onLine,dist+PX-13):(onRoof?onRoof.roof:E(dist+PX-13)),onLine?lineH(onLine,dist+PX):(onRoof?onRoof.roof:g));drawFlashlight();fallenClothes.forEach(function(c){var flutter=Math.sin(c.flutterPhase),skew=(flutter*7).toFixed(1),stretch=(1+Math.cos(c.flutterPhase*1.3)*.055).toFixed(3);c.el.setAttribute('transform','translate('+(c.x-dist).toFixed(2)+' '+(c.y+18).toFixed(2)+') rotate('+c.angle.toFixed(1)+') skewX('+skew+') scale('+stretch+' 1) translate(0 -18)');c.el.setAttribute('opacity',Math.min(1,c.life).toFixed(2));});
