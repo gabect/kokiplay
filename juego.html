@@ -328,7 +328,7 @@ function drawRouteTrees(){
     far.push('<image href="'+treeAsset(cycle*4+j)+'" x="'+(x-w/2)+'" y="'+(base-ht)+'" width="'+w+'" height="'+ht+'" preserveAspectRatio="xMidYMax meet"/>');
    });
    const x=cycle*monteWidth+1050,w=108,ht=138,base=GY-E(x)+2;
-   near.push('<image href="'+treeAsset(cycle*5+2)+'" x="'+(x-w/2)+'" y="'+(base-ht)+'" width="'+w+'" height="'+ht+'" preserveAspectRatio="xMidYMax meet"/>');
+   near.push('<image href="'+treeAsset(cycle*3+2)+'" x="'+(x-w/2)+'" y="'+(base-ht)+'" width="'+w+'" height="'+ht+'" preserveAspectRatio="xMidYMax meet"/>');
   }
   routeTreeFarLayer.innerHTML=far.join('');
   routeTreeNearLayer.innerHTML=near.join('');
