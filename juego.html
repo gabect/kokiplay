@@ -342,7 +342,7 @@ function fernClump(x,y,scale,seed,count){
 }
 let bankVegetationRange='';
 function drawBankVegetation(){
- const first=Math.floor(dist/monteWidth)-1,last=Math.floor((dist+W)/monteWidth)+1,range=first+':'+last;
+ const first=Math.floor(dist/monteWidth)-1,last=Math.floor((dist+W)/monteWidth)+1,range=first+':'+last+':'+Math.round(camera/24);
  if(range!==bankVegetationRange){
   let art='';
   for(let cycle=first;cycle<=last;cycle++){
