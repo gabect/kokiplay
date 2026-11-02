@@ -316,7 +316,7 @@ function drawRuralEmbankments(){
   const center=q.x+q.w*.5+Math.sin(q.i*2.17)*54;
   const base=GY-E(center)+3;
   const angle=Math.atan(-slope(center))*180/Math.PI;
-  art+='<g transform="translate('+center.toFixed(1)+' '+base.toFixed(1)+') rotate('+angle.toFixed(2)+')"><image href="rural/assets/'+file+'" x="'+(-width/2).toFixed(1)+'" y="'+(-height).toFixed(1)+'" width="'+width.toFixed(1)+'" height="'+height.toFixed(1)+'" preserveAspectRatio="none"/></g>';
+  art+='<g transform="translate('+center.toFixed(1)+' '+base.toFixed(1)+') rotate('+angle.toFixed(2)+')"><image href="rural/assets/'+file+'" x="'+(-width/2).toFixed(1)+'" y="'+(-height).toFixed(1)+'" width="'+width.toFixed(1)+'" height="'+height.toFixed(1)+'" preserveAspectRatio="none" mask="url(#ruralEdgeFade)" opacity=".96"/></g>';
  });
  ruralEmbankments.innerHTML=art;
  ruralEmbankments.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
@@ -383,6 +383,7 @@ function roadsideBlock(block){
  return edge;
 }
 
+defs.insertAdjacentHTML("beforeend",'<linearGradient id="ruralEdgeGradient" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="black"/><stop offset=".10" stop-color="white"/><stop offset=".90" stop-color="white"/><stop offset="1" stop-color="black"/></linearGradient><mask id="ruralEdgeFade" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1"><rect width="1" height="1" fill="url(#ruralEdgeGradient)"/></mask>');
 svg.prepend(defs);$('hillBody').setAttribute('fill','url(#earth)');$('hillCap').setAttribute('stroke','#69834a');$('hillCap').setAttribute('stroke-width','9');
 var haze=document.createElementNS(NS,'rect');haze.setAttribute('width',800);haze.setAttribute('height',450);haze.setAttribute('fill','url(#haze)');svg.insertBefore(haze,world);
 var grass=document.createElementNS(NS,'path');grass.setAttribute('stroke','#4e693d');grass.setAttribute('stroke-width','2');grass.setAttribute('fill','none');$('terrain').appendChild(grass);
