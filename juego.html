@@ -318,16 +318,64 @@ function drawRuralEmbankments(){
  ruralEmbankments.innerHTML=art;
  ruralEmbankments.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
 }
+function fernClump(x,y,scale,seed,count){
+ let art='';
+ const shades=['#4e7838','#5e8b41','#75994d','#416a35'];
+ for(let p=0;p<count;p++){
+  const spread=(p-(count-1)/2)*24;
+  const sc=scale*(.78+((seed+p*7)%5)*.085);
+  art+='<g transform="translate('+(x+spread).toFixed(1)+' '+y.toFixed(1)+') scale('+sc.toFixed(2)+')">';
+  art+='<ellipse cx="0" cy="1" rx="11" ry="3" fill="#26351f" opacity=".27"/>';
+  const fronds=7;
+  for(let f=0;f<fronds;f++){
+   const angle=-157+f*21.5, length=48+((seed+f*3+p)%5)*5, leaf=shades[(seed+f+p)%shades.length];
+   art+='<g transform="rotate('+angle.toFixed(1)+')"><path d="M0 0 Q-4 '+(-length*.40).toFixed(1)+' 0 '+(-length).toFixed(1)+'" fill="none" stroke="#344b2c" stroke-width="2.1" stroke-linecap="round"/>';
+   for(let n=1;n<=6;n++){
+    const d=length*(.18+n*.105), size=(8-n*.42)*(length/65);
+    art+='<path d="M0 '+(-d).toFixed(1)+' Q'+(-size*.45).toFixed(1)+' '+(-d-size*.42).toFixed(1)+' '+(-size).toFixed(1)+' '+(-d-size).toFixed(1)+' Q'+(-size*.22).toFixed(1)+' '+(-d-size*.72).toFixed(1)+' 0 '+(-d).toFixed(1)+' Z" fill="'+leaf+'" stroke="#344b2c" stroke-width="1.05"/>';
+    art+='<path d="M0 '+(-d).toFixed(1)+' Q'+(size*.45).toFixed(1)+' '+(-d-size*.42).toFixed(1)+' '+size.toFixed(1)+' '+(-d-size).toFixed(1)+' Q'+(size*.22).toFixed(1)+' '+(-d-size*.72).toFixed(1)+' 0 '+(-d).toFixed(1)+' Z" fill="'+leaf+'" stroke="#344b2c" stroke-width="1.05"/>';
+   }
+   art+='</g>';
+  }
+  art+='</g>';
+ }
+ return art;
+}
+let bankVegetationRange='';
+function drawBankVegetation(){
+ const first=Math.floor(dist/monteWidth)-1,last=Math.floor((dist+W)/monteWidth)+1,range=first+':'+last;
+ if(range!==bankVegetationRange){
+  let art='';
+  for(let cycle=first;cycle<=last;cycle++){
+   const bananaGroups=[[345,'banana-grove-leafy.webp',174,158],[1050,'banana-grove-fruit.webp',180,168],[1770,'banana-grove-young.webp',164,160]];
+   bananaGroups.forEach(function(v,j){
+    const x=cycle*monteWidth+v[0],base=GY-E(x)+pathDepth+14,w=v[2],h=v[3];
+    art+='<image href="rural/assets/trees/'+v[1]+'" x="'+(x-w/2)+'" y="'+(base-h)+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMax meet"/>';
+   });
+   [[720,.90,1],[1440,1.02,1],[1910,.86,1]].forEach(function(v,j){
+    const x=cycle*monteWidth+v[0],base=GY-E(x)+pathDepth+12;
+    art+=fernClump(x,base,v[1],cycle*13+j*5,1);
+   });
+   [[115,.88,3],[880,1.05,3],[1535,.95,4]].forEach(function(v,j){
+    const x=cycle*monteWidth+v[0],base=GY-E(x)+pathDepth+13;
+    art+=fernClump(x,base,v[1],cycle*17+j*11,Math.floor(v[2]));
+   });
+  }
+  bankVegetationLayer.innerHTML=art;
+  bankVegetationRange=range;
+ }
+ bankVegetationLayer.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
+}
 function drawRouteTrees(){
  const first=Math.floor(dist/monteWidth)-1,last=Math.floor((dist+W)/monteWidth)+1,range=first+':'+last;
  if(range!==routeTreeRange){
-  const far=[],near=[],offsets=[240,620,1350,1690],widths=[112,104,126,96],heights=[126,118,135,112];
+  const far=[],near=[],offsets=[220,600,1320,1690],widths=[164,152,178,146],heights=[190,180,205,172];
   for(let cycle=first;cycle<=last;cycle++){
    offsets.forEach(function(offset,j){
     const x=cycle*monteWidth+offset,w=widths[j],ht=heights[j],base=GY-E(x)-pathDepth-8;
     far.push('<image href="'+treeAsset(cycle*4+j)+'" x="'+(x-w/2)+'" y="'+(base-ht)+'" width="'+w+'" height="'+ht+'" preserveAspectRatio="xMidYMax meet"/>');
    });
-   const x=cycle*monteWidth+1050,w=108,ht=138,base=GY-E(x)+2;
+   const x=cycle*monteWidth+1050,w=146,ht=176,base=GY-E(x)+2;
    near.push('<image href="'+treeAsset(cycle*3+2)+'" x="'+(x-w/2)+'" y="'+(base-ht)+'" width="'+w+'" height="'+ht+'" preserveAspectRatio="xMidYMax meet"/>');
   }
   routeTreeFarLayer.innerHTML=far.join('');
@@ -341,7 +389,7 @@ function drawHouses(){let litMasks='';ensureHouses();drawRuralEmbankments();hous
  if(q.x>dist+900)return;
  const roofY=GY-q.roof,groundY=GY-q.base-pathDepth;
  const house=[0,1,4,5,7][q.i%5];
- const treeWidth=150,treeHeight=116,treeX=-treeWidth*.78;
+ const treeWidth=178,treeHeight=142,treeX=-treeWidth*.78;
  const treeWorld=q.x+treeX+treeWidth/2,treeBase=GY-E(treeWorld)-pathDepth;
  let art=q.yard+'<image href="'+treeAsset(q.i)+'" x="'+treeX+'" y="'+(treeBase-treeHeight)+'" width="'+treeWidth+'" height="'+treeHeight+'" preserveAspectRatio="xMidYMax meet"/>';
  art+='<ellipse cx="'+q.w*.5+'" cy="'+(groundY+1)+'" rx="'+q.w*.46+'" ry="3.5" fill="#352d27" opacity=".32"/>';
@@ -378,6 +426,9 @@ defs.insertAdjacentHTML('beforeend',`
 <pattern id="trailEarth" width="4096" height="640" patternUnits="userSpaceOnUse"><image href="rural/ladera-larga.webp" width="4096" height="640"/></pattern>`);
 const bankSurface=document.createElementNS(NS,'g');
 $('terrain').insertBefore(bankSurface,$('hillCap'));
+const bankVegetationLayer=document.createElementNS(NS,'g');
+bankVegetationLayer.id='bankVegetation';
+$('terrain').insertBefore(bankVegetationLayer,$('hillCap'));
 defs.insertAdjacentHTML('beforeend','<linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
 const nearVerge=document.createElementNS(NS,'g');
 world.appendChild(nearVerge);
@@ -454,6 +505,7 @@ function drawTerrain(){
   lastVergeBlock=block;
  }
  nearVerge.setAttribute('transform','translate('+(-dist)+' 0)');
+ drawBankVegetation();
 }
 // One real minute per full in-game day. The clock survives retries and pauses with play.
 var sky=$('sky');sky.innerHTML='<defs><linearGradient id="daySky" x2="0" y2="1"><stop id="skyTop"/><stop id="skyHorizon" offset="1"/></linearGradient><radialGradient id="sunHalo"><stop stop-color="#fff3c9" stop-opacity=".6"/><stop offset="1" stop-color="#ffc97b" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#daySky)"/><g id="stars"></g><g id="sunOrbit"><circle r="76" fill="url(#sunHalo)"/><circle r="25" fill="#fff1ba"/></g><g id="moonOrbit"><circle r="18" fill="#e9eff5"/><circle cx="-6" cy="-4" r="4" fill="#b6c4d5" opacity=".45"/><circle cx="6" cy="6" r="3" fill="#b6c4d5" opacity=".35"/></g>';
