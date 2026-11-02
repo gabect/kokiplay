@@ -439,7 +439,7 @@ $('hillBody').style.display=$('hillCap').style.display='none';
 function drawTerrain(){
  const tile=Math.floor(dist/monteWidth),block=Math.floor(dist/580);
  if(tile!==lastMonteTile){
-  bankSurface.innerHTML=[0,1].map(i=>'<image x="'+i*monteWidth+'" y="'+(GY-monteDatum)+'" width="2048" height="683" href="rural/monte-trazado.webp" style="image-rendering:pixelated"/>').join('');
+  bankSurface.innerHTML=[0,1].map(i=>'<image x="'+i*monteWidth+'" y="'+(GY-monteDatum)+'" width="2048" height="683" href="rural/monte-ladera-v2.webp"/>').join('');
   roadMaterials.innerHTML=roadTile(tile)+roadTile(tile+1);
   stormRunoff.innerHTML=runoffTile(tile)+runoffTile(tile+1);
   lastMonteTile=tile;
