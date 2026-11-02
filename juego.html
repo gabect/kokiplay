@@ -297,9 +297,8 @@ function windowLight(hour, index){
  return Math.max(0,Math.min(1,(hour-on)/.1,(off+.1-hour)/.1));
 }
 function treeAsset(index){
- const assetBase='https://raw.githubusercontent.com/gabect/kokiplay/main/rural/assets/';
- const choices=['banana-grove.webp','tree-mango-fruit.webp','tree-jobo.webp','tree-mango-green.webp','banana-young.webp'].map(name=>assetBase+name);
- return choices[((index%choices.length)+choices.length)%choices.length];
+ const choices=['mango-grove-fruit.webp','mango-grove-bloom.webp','mango-grove-leafy.webp','mango-tree-ripe.webp','mango-tree-bloom.webp','flamboyan.webp','banana-grove-fruit.webp','banana-grove-young.webp','banana-grove-leafy.webp'];
+ return 'rural/assets/trees/'+choices[((index%choices.length)+choices.length)%choices.length];
 }
 const ruralEmbankments=document.createElementNS(NS,'g');
 ruralEmbankments.id='ruralEmbankments';
