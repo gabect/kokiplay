@@ -297,7 +297,8 @@ function windowLight(hour, index){
  return Math.max(0,Math.min(1,(hour-on)/.1,(off+.1-hour)/.1));
 }
 function treeAsset(index){
- const choices=['rural/assets/banana-grove.webp','rural/assets/tree-mango-fruit.webp','rural/assets/tree-jobo.webp','rural/assets/tree-mango-green.webp','rural/assets/banana-young.webp'];
+ const assetBase='https://raw.githubusercontent.com/gabect/kokiplay/main/rural/assets/';
+ const choices=['banana-grove.webp','tree-mango-fruit.webp','tree-jobo.webp','tree-mango-green.webp','banana-young.webp'].map(name=>assetBase+name);
  return choices[((index%choices.length)+choices.length)%choices.length];
 }
 const ruralEmbankments=document.createElementNS(NS,'g');
