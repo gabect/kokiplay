@@ -375,7 +375,7 @@ defs.insertAdjacentHTML('beforeend',`
 <pattern id="timberGrain" width="79" height="24" patternUnits="userSpaceOnUse"><path d="M0 1 H79 M4 8 Q16 5 27 8 T53 8 M43 17 Q60 13 73 17 M1 20 Q8 20 14 18" fill="none" stroke="#45352e" stroke-opacity=".31" stroke-width=".9"/><path d="M19 8 q6 -5 12 0 q-5 3 -12 0Z" fill="none" stroke="#514235" stroke-opacity=".45"/><path d="M0 2 H79" stroke="#fff3c8" opacity=".32"/></pattern>
 <pattern id="wallLime" width="51" height="37" patternUnits="userSpaceOnUse"><path d="M5 8 l8 -1 M26 23 l4 1 M17 32 l7 -2" stroke="#765841" opacity=".12"/><path d="M32 6 l9 -1 M4 27 h4" stroke="#fff8df" opacity=".45"/></pattern>
 <pattern id="zincRibs" width="39" height="42" patternUnits="userSpaceOnUse" patternTransform="skewX(-12)"><path d="M1 0 V42 M14 0 V42 M27 0 V42" stroke="#506865" stroke-width="2"/><path d="M3 0 V42 M16 0 V42 M29 0 V42" stroke="#f2e8cd" stroke-width="1.5"/><path d="M10 3 l1 15 2 -9 -1 -6 Z M31 31 l1 9 2 -6 Z" fill="#ab7058" opacity=".65"/></pattern>
-<pattern id="trailEarth" width="4096" height="640" patternUnits="userSpaceOnUse"><image href="rural/ladera-larga.webp" width="4096" height="640"/></pattern><pattern id="bankGrassTile" width="1024" height="1024" patternUnits="userSpaceOnUse"><image href="rural/grass-hillside-tile.webp" width="1024" height="1024" preserveAspectRatio="xMidYMid slice"/></pattern>`);
+<pattern id="trailEarth" width="4096" height="640" patternUnits="userSpaceOnUse"><image href="rural/ladera-larga.webp" width="4096" height="640"/></pattern>`);
 const bankSurface=document.createElementNS(NS,'g');
 $('terrain').insertBefore(bankSurface,$('hillCap'));
 defs.insertAdjacentHTML('beforeend','<linearGradient id="bankDepth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#302819" stop-opacity=".42"/><stop offset=".05" stop-color="#e9c382" stop-opacity=".12"/><stop offset=".3" stop-color="#302819" stop-opacity=".08"/><stop offset="1" stop-color="#302819" stop-opacity=".28"/></linearGradient>');
@@ -439,7 +439,7 @@ $('hillBody').style.display=$('hillCap').style.display='none';
 function drawTerrain(){
  const tile=Math.floor(dist/monteWidth),block=Math.floor(dist/580);
  if(tile!==lastMonteTile){
-  bankSurface.innerHTML=[0,1].map(i=>{const off=i*monteWidth;const d='M'+trailProfile.map(([x,y])=>(x+off)+' '+(GY-monteDatum+y)).join('L')+'L'+(off+monteWidth)+' 820L'+off+' 820Z';return '<path d="'+d+'" fill="url(#bankGrassTile)"/>';}).join('');
+  bankSurface.innerHTML=[0,1].map(i=>'<image x="'+i*monteWidth+'" y="'+(GY-monteDatum)+'" width="2048" height="683" href="rural/grass-hillside-bank.webp"/>').join('');
   roadMaterials.innerHTML=roadTile(tile)+roadTile(tile+1);
   stormRunoff.innerHTML=runoffTile(tile)+runoffTile(tile+1);
   lastMonteTile=tile;
