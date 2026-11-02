@@ -309,10 +309,8 @@ function drawRuralEmbankments(){
  const first=Math.floor((dist-1050)/step),last=Math.ceil((dist+1600)/step);
  for(let i=first;i<=last;i++){
   const index=((i%variants.length)+variants.length)%variants.length;
-  const center=i*step+step*.5;
-  const base=GY-E(center)+3;
-  const angle=Math.atan(-slope(center))*180/Math.PI;
-  art+='<g transform="translate('+center.toFixed(1)+' '+base.toFixed(1)+') rotate('+angle.toFixed(2)+')"><image href="rural/assets/'+variants[index]+'" x="'+(-width/2)+'" y="'+(-height)+'" width="'+width+'" height="'+height+'" preserveAspectRatio="none" mask="url(#ruralEdgeFade)"/></g>';
+  const x=i*step,y=GY+58-height;
+  art+='<image href="rural/assets/'+variants[index]+'" x="'+x+'" y="'+y+'" width="'+width+'" height="'+height+'" preserveAspectRatio="none" mask="url(#ruralEdgeFade)"/>';
  }
  ruralEmbankments.innerHTML=art;
  ruralEmbankments.setAttribute('transform','translate('+(-dist).toFixed(2)+' 0)');
