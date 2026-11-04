@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kokiplay.site/sitemap.xml
