@@ -1,11 +1,13 @@
-# Puerto Rico Run Chill Version
+# Koki Play — Tropical Run
 
-A browser runner set in rural Puerto Rico. Built as a static site; `index.html` and `rural/` assets are ready for GitHub Pages.
+Tropical Run is a browser-based runner set in a colorful Caribbean countryside. The static website is published with GitHub Pages.
 
 ## Controls
 
-- Left/right arrows: walk left or right.
-- Hold Shift while pressing a direction to run.
-- Touch controls: use the directional buttons and toggle **Correr**.
+- Left and right arrows: move left or right.
+- Hold Shift while pressing a direction: skate faster.
+- Touch controls: use the directional buttons and tap **Skate**.
 - Up arrow or Space: jump.
-- **Carrera automática**: switch to the classic automatic run.
+- **Auto Run**: start the classic automatic runner mode.
+
+Play at https://kokiplay.site/tropical-runner.html
