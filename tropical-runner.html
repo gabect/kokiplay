@@ -53,9 +53,38 @@ button{font:inherit;font-size:15px;padding:12px 14px;border-radius:12px;border:1
 button:active{transform:translateY(1px)}
 
 body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-action:none;box-shadow:0 18px 60px #47392120} button:focus-visible,#stage:focus-visible{outline:3px solid #bc7337;outline-offset:4px} .ctrl{flex-wrap:wrap} #jump{min-width:120px} @media(max-width:600px){main{padding:12px 8px} button{padding:12px 10px} h1{font-size:18px}} @media(prefers-color-scheme:dark){body{background:#1b1820}}
- .movePad{display:flex;gap:5px;margin-left:auto}.movePad button{touch-action:none;user-select:none;min-width:45px}button[aria-pressed=true]#run,button[aria-pressed=true]#auto{background:#427557;color:white}</style></head><body><main>
+ .movePad{display:flex;gap:5px;margin-left:auto}.movePad button{touch-action:none;user-select:none;min-width:45px}button[aria-pressed=true]#run,button[aria-pressed=true]#auto{background:#427557;color:white}
+/* Mobile play layout: keep the full scene visible and controls outside the artwork. */
+.mobileHint{display:none}
+.ctrl button{min-height:48px;-webkit-user-select:none;user-select:none}
+.movePad button{min-width:56px}
+.ctrl button.is-held{background:#427557;color:#fff}
+#fullscreen{font-size:14px}
+main:fullscreen{box-sizing:border-box;max-width:none;width:100%;height:100%;overflow:auto;background:var(--bg)}
+@media(max-width:900px), (pointer:coarse){
+ main{box-sizing:border-box;padding:10px max(10px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+ .desktopHint{display:none}.mobileHint{display:block}
+ .ctrl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+ .ctrl button{padding:10px 8px;font-size:14px;min-width:0}
+ .movePad{grid-column:1/4;grid-row:1;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .movePad button{min-height:60px;min-width:0;font-size:18px;touch-action:none}
+ #jump{grid-column:4;grid-row:1;min-height:60px;min-width:0;touch-action:none;font-size:17px}
+ #stage{border-radius:10px}
+}
+@media(max-height:540px) and (orientation:landscape){
+ :root{padding:0}
+ main,main:fullscreen{padding:4px max(8px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+ h1,p.s,main>section{display:none}
+ #stage{width:min(100%,calc((100dvh - 132px - env(safe-area-inset-bottom)) * 16 / 9));margin:0 auto;box-shadow:none}
+ .ctrl{max-width:820px;margin:5px auto 0;gap:4px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+ .movePad{grid-column:1/4;grid-row:1;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+ .ctrl button,.movePad button{min-height:44px;padding:6px;font-size:14px}
+ #jump{grid-column:4;grid-row:1;min-width:0;min-height:44px}
+}
+</style></head><body><main>
 <h1>Tropical Run</h1>
-<p class="s">Explore with ← and →. Hold Shift to skate faster, or tap “Skate” in the touch controls. Jump with ↑ or Space. “Auto Run” starts the classic runner mode.</p>
+<p class="s desktopHint">Explore with ← and →. Hold Shift to skate faster, or tap “Skate” in the touch controls. Jump with ↑ or Space. “Auto Run” starts the classic runner mode.</p>
+<p class="s mobileHint">Hold ← or → to move. Tap Skate for speed; hold Jump to jump. Turn your phone sideways for a larger view.</p>
 <div id="stage" tabindex="0" role="region" aria-label="Game. Press Space to jump or P to pause"><svg id="game" viewBox="0 0 800 450" aria-label="Runner game with jumping obstacles">
 <g id="sky"><rect width="800" height="60" fill="#6f9ec8"/><rect y="60" width="800" height="70" fill="#86b2d0"/><rect y="130" width="800" height="60" fill="#a8c9d6"/><rect y="190" width="800" height="60" fill="#c9d8c8"/><rect y="250" width="800" height="50" fill="#ecd6a8"/><rect y="300" width="800" height="60" fill="#f4c78e"/>
 <circle cx="150" cy="268" r="46" fill="#fbe7b0" opacity=".55"/><circle cx="150" cy="268" r="30" fill="#fff3cf"/></g>
@@ -133,7 +162,7 @@ body{background:#eee6d7} main{max-width:1100px;padding-top:24px} #stage{touch-ac
 <text id="m1" x="400" y="184" text-anchor="middle" font-size="28" font-weight="700" fill="#f1ece4" font-family="system-ui,sans-serif"></text>
 <text id="m2" x="400" y="220" text-anchor="middle" font-size="17" fill="#d9d3e0" font-family="system-ui,sans-serif"></text></g>
 </svg></div>
-<div class="ctrl"><button id="jump" type="button">Jump</button><button id="pause" type="button">Pause</button><button id="snd" type="button">Sound: on</button><button id="auto" type="button" aria-pressed="false">Auto Run</button><div class="movePad"><button id="left" aria-label="Move left">←</button><button id="right" aria-label="Move right">→</button><button id="run" aria-pressed="false" aria-label="Skate faster">Skate</button></div></div>
+<div class="ctrl"><button id="jump" type="button">Jump</button><button id="pause" type="button">Pause</button><button id="snd" type="button">Sound: on</button><button id="auto" type="button" aria-pressed="false">Auto Run</button><div class="movePad"><button id="left" aria-label="Move left">←</button><button id="right" aria-label="Move right">→</button><button id="run" aria-pressed="false" aria-label="Skate faster">Skate</button></div><button id="fullscreen" type="button" aria-pressed="false">Full screen</button></div>
 <section aria-labelledby="about-game" style="margin-top:24px;max-width:720px">
 <h2 id="about-game" style="font-size:1.25rem">About Tropical Run</h2>
 <p>Tropical Run is a free browser game by Koki Play set along winding roads in a colorful Caribbean countryside. Explore rolling hills, skate, and jump using keyboard or touch controls.</p>
@@ -697,8 +726,9 @@ function movePress(key){
 }
 for(const [id,key] of [['left','touchLeft'],['right','touchRight']]){
  const button=$(id);
- button.onpointerdown=e=>{e.preventDefault();button.setPointerCapture(e.pointerId);movePress(key);};
- button.onpointerup=button.onpointercancel=button.onlostpointercapture=()=>movement.delete(key);
+ let pointer=null;
+ button.onpointerdown=e=>{if(pointer!==null||e.button>0)return;e.preventDefault();pointer=e.pointerId;button.setPointerCapture(e.pointerId);movePress(key);button.classList.add('is-held');};
+ button.onpointerup=button.onpointercancel=button.onlostpointercapture=e=>{if(e.pointerId!==pointer)return;pointer=null;movement.delete(key);button.classList.remove('is-held');};
 }
 $('run').onclick=()=>{fastWalk=!fastWalk;$('run').setAttribute('aria-pressed',String(fastWalk));};
 $('auto').onclick=()=>{if(state==='ready'||state==='dead')start();if(state==='paused')pause();movement.clear();setAuto(!automatic);};
@@ -720,7 +750,11 @@ $('jump').addEventListener('click',function(e){if(e.detail===0){pressJump();rele
 $('pause').addEventListener('click',pause);$('snd').addEventListener('click',function(){sndOn=!sndOn;this.textContent='Sonido: '+(sndOn?'on':'off');this.setAttribute('aria-pressed',String(sndOn));});
 window.addEventListener('keydown',function(e){if(e.target.tagName==='BUTTON'&&e.code==='Space')return;if(['Space','ArrowUp','KeyW'].includes(e.code)){e.preventDefault();if(!e.repeat)pressJump();}if(['KeyP','Escape'].includes(e.code)&&!e.repeat)pause();});
 window.addEventListener('keyup',function(e){if(['Space','ArrowUp','KeyW'].includes(e.code))releaseJump();});
-function autoPause(){if(state==='play')pause();activePointer=null;releaseJump();}
+function autoPause(){if(state==='play')pause();movement.clear();document.querySelectorAll('.is-held').forEach(el=>el.classList.remove('is-held'));activePointer=null;releaseJump();}
+const fullscreenButton=$('fullscreen'),playArea=document.querySelector('main');
+if(!document.fullscreenEnabled||!playArea.requestFullscreen){fullscreenButton.hidden=true;}
+fullscreenButton.onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await playArea.requestFullscreen();}catch(e){fullscreenButton.textContent='Use landscape';}};
+document.addEventListener('fullscreenchange',()=>{const enabled=!!document.fullscreenElement;fullscreenButton.setAttribute('aria-pressed',String(enabled));fullscreenButton.textContent=enabled?'Exit full screen':'Full screen';});
 window.addEventListener('blur',autoPause);document.addEventListener('visibilitychange',function(){if(document.hidden)autoPause();});window.addEventListener('pagehide',save);
 function dust(n){if(reduceMotion)return;for(var i=0;i<n;i++){var el=document.createElementNS(NS,'circle');el.setAttribute('fill','#edd3a1');trail.appendChild(el);particles.push({el:el,x:dist+PX-12,y:GY-h-4,life:.55+i*.06,vx:-25-i*18,vy:-20-i*12});}}
 function update(dt){if(state!=='play')return;ensureHouses();worldTime+=dt;dayClock=(dayClock+dt*24/DAY_SECONDS)%24;advanceWeather(dt);var oldX=dist+PX,sl=onLine?lineSlope(onLine,oldX):(onRoof?0:slope(oldX));sliding=grounded&&(onLine?sl<-.035:(sliding?sl<-.20:sl<-.38));slideDust-=dt;
