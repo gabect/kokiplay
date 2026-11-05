@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#12343a">
 <meta name="description" content="Play Tropical Run, a free browser game from Koki Play. Skate and explore a Caribbean countryside on desktop or mobile in this early playable prototype.">
 <link rel="canonical" href="https://kokiplay.site/">
@@ -89,7 +89,43 @@ footer{background:var(--deep);color:#c7d5ce;padding:27px 0;font-size:.88rem}
 .foot strong{color:#fff4e6}
 :focus-visible{outline:3px solid #f08031;outline-offset:4px;border-radius:6px}
 @media(max-width:800px){.hero{grid-template-columns:1fr .65fr}.logo-card{width:min(100%,230px)}.games{grid-template-columns:repeat(2,1fr)}.section-head{align-items:start;flex-direction:column}}
-@media(max-width:600px){.wrap{width:min(100% - 28px,1120px)}.topbar{height:70px}.brand-icon{width:44px;height:44px}.nav{gap:12px;font-size:.84rem}.nav a:first-child{display:none}.nav .nav-cta{padding:9px 12px}.hero{grid-template-columns:1fr;gap:24px;min-height:0;padding:29px 24px;border-radius:23px}.hero-art{grid-row:1;justify-content:flex-start}.logo-card{width:104px;padding:5px}h1{font-size:clamp(2.55rem,13vw,4rem);margin-top:17px}.hero-copy p{font-size:1rem}.actions .btn{flex:1}section{padding:58px 0}.games{grid-template-columns:1fr}.game-art{height:190px}.section-head p{margin-top:2px}.support-panel{grid-template-columns:1fr;gap:17px;border-radius:22px}.support-action{width:max-content}.support{padding-bottom:58px}.foot{align-items:flex-start;flex-direction:column}}
+/* Mobile landing layout */
+@media(max-width:600px){
+ .wrap{width:calc(100% - 32px)}
+ .topbar{height:auto;min-height:76px;flex-wrap:wrap;gap:4px 16px;padding:12px 0}
+ .brand{font-size:1rem;gap:9px;min-height:44px}
+ .brand-icon{width:40px;height:40px;flex-shrink:0}
+ .nav{width:100%;justify-content:space-between;gap:8px;font-size:.9rem}
+ .nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px}
+ .nav .nav-cta{padding:8px 16px}
+ .hero{grid-template-columns:minmax(0,1fr);gap:20px;min-height:0;padding:24px 20px;border-radius:23px}
+ .hero-copy,.hero-art{min-width:0}
+ .hero-art{grid-row:1;justify-content:flex-start}
+ .logo-card{width:88px;padding:4px}
+ .kicker{font-size:.65rem;letter-spacing:.08em;max-width:100%}
+ h1{font-size:clamp(2rem,9vw,3rem);line-height:1.08;letter-spacing:-.04em;margin:16px 0}
+ .hero-copy p{font-size:1rem;line-height:1.6;margin-bottom:22px}
+ .actions{flex-direction:column;gap:10px}
+ .actions .btn{width:100%;min-height:48px;text-align:center}
+ section{padding:40px 0}
+ .games{grid-template-columns:minmax(0,1fr)}
+ .game-art{height:auto;aspect-ratio:16/9}
+ .game-art img{height:100%;position:absolute;inset:0}
+ .section-head{gap:14px;margin-bottom:20px}
+ .section-head p{margin-top:0}
+ h2{font-size:1.9rem;line-height:1.15}
+ .dev-notice{padding:14px;font-size:.9rem;line-height:1.6}
+ .card-body{padding:20px}
+ a.card-link{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:10px 14px;background:var(--deep);color:var(--paper);border-radius:12px}
+ .soon-card .game-art{height:100px;aspect-ratio:auto}
+ .soon-card .mini-art{font-size:2.6rem}
+ .support-panel{grid-template-columns:minmax(0,1fr);gap:22px;padding:24px 20px;border-radius:22px}
+ .support-action{width:100%;white-space:normal;text-align:center}
+ .support{padding-bottom:40px}
+ .foot{align-items:flex-start;flex-direction:column;gap:8px}
+ footer{padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+@media(hover:none){.btn:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}}
 </style>
 <script type="application/ld+json">{
@@ -152,7 +188,7 @@ footer{background:var(--deep);color:#c7d5ce;padding:27px 0;font-size:.88rem}
 <div class="kicker">Indie games · Puerto Rico</div>
 <h1>Koki Play:<br><em>games, one prompt at a time.</em></h1>
 <p>Koki Play is an independent game studio creating original games with AI, one prompt at a time. Play Tropical Run, our free browser game prototype, on desktop or mobile. No download required.</p>
-<div class="actions"><a class="btn btn-primary" href="#juegos">Explore games <span aria-hidden="true">↓</span></a><a class="btn btn-quiet" href="#apoyo">Support the project <span aria-hidden="true">↗</span></a></div>
+<div class="actions"><a class="btn btn-primary" href="tropical-runner.html">Play Tropical Run <span aria-hidden="true">→</span></a><a class="btn btn-quiet" href="#apoyo">Support the project <span aria-hidden="true">↗</span></a></div>
 </div>
 <div class="hero-art"><div class="logo-card"><img src="assets/koki-play-logo-v3.jpg" alt="Koki Play logo featuring an orange coquí frog in a navy seal"></div></div>
 </section>
