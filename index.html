@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#12343a">
-<meta name="description" content="Koki Play is an independent game studio creating original games, one prompt at a time. Play Tropical Run and discover new games.">
+<meta name="description" content="Play Tropical Run, a free browser game from Koki Play. Skate and explore a Caribbean countryside on desktop or mobile in this early playable prototype.">
 <link rel="canonical" href="https://kokiplay.site/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Koki Play">
-<meta property="og:title" content="Koki Play — Indie Games">
-<meta property="og:description" content="Koki Play is an independent game studio creating original games, one prompt at a time. Play Tropical Run and discover new games.">
+<meta property="og:title" content="Koki Play — Free Browser Games & Tropical Run">
+<meta property="og:description" content="Play Tropical Run, a free browser game from Koki Play. Skate and explore a Caribbean countryside on desktop or mobile in this early playable prototype.">
 <meta property="og:url" content="https://kokiplay.site/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://kokiplay.site/assets/koki-play-logo-v3.jpg">
@@ -18,9 +18,9 @@
 <meta name="twitter:image" content="https://kokiplay.site/assets/koki-play-logo-v3.jpg">
 <meta name="twitter:image:alt" content="Koki Play logo featuring an orange coquí frog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Koki Play — Indie Games">
-<meta name="twitter:description" content="Koki Play is an independent game studio creating original games, one prompt at a time. Play Tropical Run and discover new games.">
-<title>Koki Play — Indie Games</title>
+<meta name="twitter:title" content="Koki Play — Free Browser Games & Tropical Run">
+<meta name="twitter:description" content="Play Tropical Run, a free browser game from Koki Play. Skate and explore a Caribbean countryside on desktop or mobile in this early playable prototype.">
+<title>Koki Play — Free Browser Games & Tropical Run</title>
 <link rel="icon" type="image/jpeg" href="assets/koki-play-logo-v3.jpg">
 <style>
 :root{--ink:#18363a;--deep:#12343a;--cream:#f6f0e5;--paper:#fffaf1;--orange:#ef5a18;--green:#416c58;--line:#ded4c3;--muted:#667575;--shadow:0 18px 48px #15343a17}
@@ -92,6 +92,54 @@ footer{background:var(--deep);color:#c7d5ce;padding:27px 0;font-size:.88rem}
 @media(max-width:600px){.wrap{width:min(100% - 28px,1120px)}.topbar{height:70px}.brand-icon{width:44px;height:44px}.nav{gap:12px;font-size:.84rem}.nav a:first-child{display:none}.nav .nav-cta{padding:9px 12px}.hero{grid-template-columns:1fr;gap:24px;min-height:0;padding:29px 24px;border-radius:23px}.hero-art{grid-row:1;justify-content:flex-start}.logo-card{width:104px;padding:5px}h1{font-size:clamp(2.55rem,13vw,4rem);margin-top:17px}.hero-copy p{font-size:1rem}.actions .btn{flex:1}section{padding:58px 0}.games{grid-template-columns:1fr}.game-art{height:190px}.section-head p{margin-top:2px}.support-panel{grid-template-columns:1fr;gap:17px;border-radius:22px}.support-action{width:max-content}.support{padding-bottom:58px}.foot{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}.btn:hover{transform:none}}
 </style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://kokiplay.site/#organization",
+      "name": "Koki Play",
+      "url": "https://kokiplay.site/",
+      "logo": "https://kokiplay.site/assets/koki-play-logo-v3.jpg"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://kokiplay.site/#website",
+      "url": "https://kokiplay.site/",
+      "name": "Koki Play",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://kokiplay.site/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://kokiplay.site/#webpage",
+      "url": "https://kokiplay.site/",
+      "name": "Koki Play — Free Browser Games & Tropical Run",
+      "description": "Play Tropical Run, a free browser game from Koki Play. Skate and explore a Caribbean countryside on desktop or mobile in this early playable prototype.",
+      "isPartOf": {
+        "@id": "https://kokiplay.site/#website"
+      },
+      "about": {
+        "@id": "https://kokiplay.site/tropical-runner.html#game"
+      }
+    },
+    {
+      "@type": "VideoGame",
+      "@id": "https://kokiplay.site/tropical-runner.html#game",
+      "name": "Tropical Run",
+      "url": "https://kokiplay.site/tropical-runner.html",
+      "description": "An early playable browser game prototype set along winding roads in a Caribbean countryside. Skate, jump, and explore with keyboard or touch controls.",
+      "gamePlatform": "Web browser",
+      "operatingSystem": "Any",
+      "isAccessibleForFree": true,
+      "author": {
+        "@id": "https://kokiplay.site/#organization"
+      }
+    }
+  ]
+}</script>
 </head>
 <body>
 <header class="wrap topbar">
@@ -102,8 +150,8 @@ footer{background:var(--deep);color:#c7d5ce;padding:27px 0;font-size:.88rem}
 <section class="wrap hero" id="sobre">
 <div class="hero-copy">
 <div class="kicker">Indie games · Puerto Rico</div>
-<h1>Games,<br><em>one prompt at a time.</em></h1>
-<p>Koki Play is an independent game studio creating original games with AI, one prompt at a time. Explore the collection and play on desktop or mobile.</p>
+<h1>Koki Play:<br><em>games, one prompt at a time.</em></h1>
+<p>Koki Play is an independent game studio creating original games with AI, one prompt at a time. Play Tropical Run, our free browser game prototype, on desktop or mobile. No download required.</p>
 <div class="actions"><a class="btn btn-primary" href="#juegos">Explore games <span aria-hidden="true">↓</span></a><a class="btn btn-quiet" href="#apoyo">Support the project <span aria-hidden="true">↗</span></a></div>
 </div>
 <div class="hero-art"><div class="logo-card"><img src="assets/koki-play-logo-v3.jpg" alt="Koki Play logo featuring an orange coquí frog in a navy seal"></div></div>
@@ -114,7 +162,7 @@ footer{background:var(--deep);color:#c7d5ce;padding:27px 0;font-size:.88rem}
 <div class="games">
 <article class="game-card">
 <div class="game-art run"><img src="rural/campo-pixel-v2.webp" alt="A rural Puerto Rico landscape with mountains and hillside homes"><span class="game-icon" aria-hidden="true">🏃🏽</span></div>
-<div class="card-body"><span class="status">Prototype</span><h3>Tropical Run</h3><p>Skate along winding roads, jump over obstacles, and explore a colorful Caribbean countryside.</p><a class="card-link" href="tropical-runner.html">Play now <span aria-hidden="true">→</span></a></div>
+<div class="card-body"><span class="status">Prototype</span><h3>Tropical Run</h3><p>Skate along winding roads, jump over obstacles, and explore a colorful Caribbean countryside.</p><a class="card-link" href="tropical-runner.html">Play Tropical Run <span aria-hidden="true">→</span></a></div>
 </article>
 <article class="game-card soon-card">
 <div class="game-art" aria-hidden="true"><span class="mini-art">🕹️</span></div>
